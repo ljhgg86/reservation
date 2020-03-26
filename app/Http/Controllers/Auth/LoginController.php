@@ -41,11 +41,12 @@ class LoginController extends Controller
     }
     public function username()
     {
-        //return 'name';
-        $username = request('name');
-        return $this->validatePhone($username) ? 'name' : 'openId';
+        return 'name';
+        // $username = request('name');
+        // var_dump("log:".$username);
+        // return $this->validatePhone($username) ? 'name' : 'openId';
     }
-    public function validatePhone($number){
-        return preg_match('/^1[3,4,5,7,8,9][0,9]{9}$/',$number);
-    }
+    // public function validatePhone($number){
+    //     return preg_match('/^1[3,4,5,7,8,9][0,9]{9}$/',$number);
+    // }
 }

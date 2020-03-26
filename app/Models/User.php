@@ -40,15 +40,17 @@ class User extends Authenticatable
 
     public function findForPassport($username)
     {
-        $this->validatePhone($username) ?
-          $credentials['name'] = $username :
-          $credentials['openId'] = $username;
+        // $this->validatePhone($username) ?
+        //   $credentials['name'] = $username :
+        //   $credentials['openId'] = $username;
 
-        return self::where($credentials)->first();
-        //return self::where('name',$username)->first();
+        //   var_dump($username);
+
+        // return self::where($credentials)->first();
+        return self::orwhere('name',$username)->orWhere('openId',$username)->first();
     }
 
-    public function validatePhone($number){
-        return preg_match('/^1[3,4,5,7,8,9][0,9]{9}$/',$number);
-    }
+    // public function validatePhone($number){
+    //     return preg_match('/^1[3,4,5,7,8,9][0,9]{9}$/',$number);
+    // }
 }

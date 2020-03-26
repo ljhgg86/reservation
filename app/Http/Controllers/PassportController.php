@@ -29,6 +29,7 @@ class PassportController extends Controller
             'client_secret' => env('RESERVATION_CLIENT_SECRET'),
             'grant_type'    => 'password'
         );
+        //var_dump($data);
         try{
             $response =  $this->http->post(env('APP_URL').'/oauth/token', [
                 'form_params' => $data,
