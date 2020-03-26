@@ -30,11 +30,17 @@ class PassportController extends Controller
             'grant_type'    => 'password'
         );
         try{
-            $response =  $this->http->request('POST',env('APP_URL').'/oauth/token', [
+            $response =  $this->http->post(env('APP_URL').'/oauth/token', [
                 'form_params' => $data,
             ]);
         }catch(RequestException $e){
-            return $this->unwrapResponse($e->getResponse());
+            return response()->json([
+                'status'=>false,
+                'data'=>[
+                    'successflag'=>false
+                ],
+                'message'=>'get access_token fail!'
+            ],400);
         }
 
         $token = json_decode((string)$response->getBody(), true);

@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'openId'
     ];
 
     /**
@@ -40,11 +40,15 @@ class User extends Authenticatable
 
     public function findForPassport($username)
     {
-        // filter_var($username, FILTER_VALIDATE_EMAIL) ?
-        //   $credentials['email'] = $username :
-        //   $credentials['name'] = $username;
+        $this->validatePhone($username) ?
+          $credentials['name'] = $username :
+          $credentials['openId'] = $username;
 
-        // return self::where($credentials)->first();
-        return self::where('name',$username)->first();
+        return self::where($credentials)->first();
+        //return self::where('name',$username)->first();
+    }
+
+    public function validatePhone($number){
+        return preg_match('/^1[3,4,5,7,8,9][0,9]{9}$/',$number);
     }
 }

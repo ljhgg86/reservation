@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use Illuminate\Http\Request;
+
 class LoginController extends Controller
 {
     /*
@@ -39,6 +41,11 @@ class LoginController extends Controller
     }
     public function username()
     {
-        return 'name';
+        //return 'name';
+        $username = request('name');
+        return $this->validatePhone($username) ? 'name' : 'openId';
+    }
+    public function validatePhone($number){
+        return preg_match('/^1[3,4,5,7,8,9][0,9]{9}$/',$number);
     }
 }
