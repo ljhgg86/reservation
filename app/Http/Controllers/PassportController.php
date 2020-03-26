@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class PassportController extends Controller
 {
@@ -28,9 +29,14 @@ class PassportController extends Controller
             'client_secret' => env('RESERVATION_CLIENT_SECRET'),
             'grant_type'    => 'password'
         );
-        $response =  $this->http->request('POST',env('APP_URL').'/oauth/token', [
-            'form_params' => $data,
-        ]);
+        try{
+            $response =  $this->http->request('POST',env('APP_URL').'/oauth/token', [
+                'form_params' => $data,
+            ]);
+        }catch(RequestException $e){
+            return $this->unwrapResponse($e->getResponse());
+        }
+
         $token = json_decode((string)$response->getBody(), true);
 
         return response()->json([
