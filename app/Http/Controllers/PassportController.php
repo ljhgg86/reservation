@@ -29,18 +29,31 @@ class PassportController extends Controller
             'client_secret' => env('RESERVATION_CLIENT_SECRET'),
             'grant_type'    => 'password'
         );
-        //var_dump($data);
+        return $this->passportTokenUtil($data);
+    }
+
+    public function refresh(){
+        $data = array(
+            'refresh_token' => request()->cookie('refreshtoken'),
+            'scope'    => '',
+            'client_id'     => env('RESERVATION_CLIENT_ID'),
+            'client_secret' => env('RESERVATION_CLIENT_SECRET'),
+            'grant_type'    => 'refresh_token'
+        );
+        return $this->passportTokenUtil($data);
+    }
+
+    public function passportTokenUtil($formParams){
         try{
             $response =  $this->http->post(env('APP_URL').'/oauth/token', [
-                'form_params' => $data,
+                'form_params' => $formParams,
             ]);
         }catch(RequestException $e){
             return response()->json([
                 'status'=>false,
                 'data'=>[
-                    'successflag'=>false
                 ],
-                'message'=>'get access_token fail!'
+                'message'=>'失败'
             ],400);
         }
 
@@ -49,12 +62,11 @@ class PassportController extends Controller
         return response()->json([
             'status'=>true,
             'data'=>[
-                'successflag' => true,
                 'access_token' => $token['access_token'],
-                'refresh_tOKEN'    => $token['refresh_token'],
+                'auth_id'    => md5($token['refresh_token']),
                 'expires_in' => $token['expires_in'],
             ],
-            'message'=>'success',
+            'message'=>'成功',
 
         ], 200)->cookie('refreshToken', $token['refresh_token'], 14400, null, null, false, true);
     }
