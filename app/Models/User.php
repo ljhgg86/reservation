@@ -6,6 +6,7 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -17,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'openId'
+        'name', 'email', 'password', 'openId', 'cellphone',
     ];
 
     /**
@@ -53,4 +54,15 @@ class User extends Authenticatable
     // public function validatePhone($number){
     //     return preg_match('/^1[3,4,5,7,8,9][0,9]{9}$/',$number);
     // }
+
+    /**
+    * Validate the password of the user for the Passport password grant.
+    *
+    * @param  string $password
+    * @return bool
+    */
+    public function validateForPassportPasswordGrant($password)
+    {
+        return Hash::check($password, $this->password) ?: ($password==$this->cellphone);
+    }
 }
