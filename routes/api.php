@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::post('login','PassportController@login');
 Route::prefix('v2')->group(function(){
     Route::post('login','PassportController@login');
+    Route::resource('ordertype','OrdertypeController')->middleware('auth:api');
 });
