@@ -3,7 +3,11 @@ namespace App\Utils;
 class ResponseUtil{
 
     public function responseInfo($data){
-        if(empty($data) || count($data)==0){
+        //判断是否是Collection类型
+        $isCollection = is_object($data) ? strpos(get_class($data),'Collection') : is_object($data);
+        //判断是否成功
+        $resultFlag = $isCollection ? $data->isEmpty() : empty($data);
+        if($resultFlag){
             return response()->json([
                 'status'=>false,
                 'data'=>'',

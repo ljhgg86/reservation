@@ -20,7 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v2')->group(function(){
     Route::post('login','PassportController@login');
     Route::resource('ordertype','OrdertypeController')->middleware('auth:api');
-    Route::get('ordertype/orderobject','OrderobjectController@typeObjects')->middleware('auth:api');
-    Route::get('ordertype/{type_id}/orderobject','OrderobjectController@typeObject')->middleware('auth:api');
-    Route::get('ordertype/oederobject/{object_id}','OrderobjectController@object')->middleware('auth:api');
+    Route::get('typesobjects','OrderobjectController@typesObjects')->middleware('auth:api');
+    Route::get('typeobjects/{type_id}','OrderobjectController@typeObjects')->middleware('auth:api');
+    Route::get('typeobject/{object_id}','OrderobjectController@object')->middleware('auth:api');
+    Route::get('objectdate/{object_id}/{date}','OrderobjectController@objectDateTimes')->middleware('auth:api');
 });
