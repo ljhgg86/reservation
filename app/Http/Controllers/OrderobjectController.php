@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Utils\ResponseUtil;
 
 use App\Models\Ordertype;
+use App\Models\Orderobject;
 
-class OrdertypeController extends Controller
+class OrderobjectController extends Controller
 {
-    protected $responseUtil;
 
+    /**
+    *Create a new instance.
+    */
     public function __construct()
     {
+        $this->ordertype=new Ordertype();
+        $this->orderobject=new Orderobject();
         $this->responseUtil = new ResponseUtil();
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,8 +28,7 @@ class OrdertypeController extends Controller
      */
     public function index()
     {
-        $ordertypes = Ordertype::where('delFlag', 0)->get();
-        return $this->responseUtil->responseInfo($ordertypes);
+        //
     }
 
     /**
@@ -45,7 +49,7 @@ class OrdertypeController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->responseUtil->responseInfo(Ordertype::create($request->all()));
+        //
     }
 
     /**
@@ -56,7 +60,7 @@ class OrdertypeController extends Controller
      */
     public function show($id)
     {
-        return $this->responseUtil->responseInfo(Ordertype::where('delFlag', 0)->where('id',$id)->first());
+        //
     }
 
     /**
@@ -79,7 +83,7 @@ class OrdertypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->responseUtil->responseInfo(Ordertype::update($request->all()));
+        //
     }
 
     /**
@@ -90,6 +94,38 @@ class OrdertypeController extends Controller
      */
     public function destroy($id)
     {
-        return $this->responseUtil->responseInfo(Ordertype::where('id', $id)->update(['delFlag'=>1]));
+        //
+    }
+
+    /**
+     * 返回所有ordertype和orderobject
+     */
+    public function typesObjects(){
+       // $typeObjects = $this->ordertype->typesObjects();
+        return $this->responseUtil->responseInfo($this->ordertype->typesObjects());
+    }
+
+    /**
+     * 返回指定type_id的所有orderobject
+     */
+    public function typeObjects($type_id){
+        //$typeObject = $this->orderobject->typeObjects($type_id);
+        return $this->responseUtil->responseInfo($this->orderobject->typeObjects($type_id));
+    }
+
+    /**
+     * 返回指定id的orderobject,包括关联的ordertype和ordertimerule
+     */
+    public function object($object_id){
+        //$object = $this->orderobject->object($object_id);
+        return $this->responseUtil->responseInfo($this->orderobject->object($object_id));
+    }
+
+    /**
+     * 返回指定id的orderobject，包括关联的ordertimerule和指定日期orderinfo
+     */
+    public function objectDateTimes($object_id, $date){
+        //$objectDateTimes = $this->orderobject->objectDateTimes($object_id,$date);
+        return $this->responseUtil->responseInfo($this->orderobject->objectDateTimes($object_id,$date));
     }
 }

@@ -48,7 +48,7 @@ class PassportController extends Controller
             $response =  $this->http->post(env('APP_URL').'/oauth/token', [
                 'form_params' => $formParams,
             ]);
-        }catch(RequestException $e){
+        }catch(RequestException $e){var_dump($e->getMessage());
             return response()->json([
                 'status'=>false,
                 'data'=>[

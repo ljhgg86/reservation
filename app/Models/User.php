@@ -39,6 +39,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function proposerorderinfos(){
+        return $this->hasMany(Orderinfo::class, 'porposer_id');
+    }
+
+    public function checkerorderinfos(){
+        return $this->hasMany(Orderinfo::class, 'checker_id');
+    }
+
     public function findForPassport($username)
     {
         // $this->validatePhone($username) ?
