@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\OrdertypeRequest;
+
 use App\Utils\ResponseUtil;
 
 use App\Models\Ordertype;
@@ -43,7 +45,7 @@ class OrdertypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrdertypeRequest $request)
     {
         //return $this->responseUtil->responseInfo(Ordertype::create($request->all()));
         return response()->responseUtil(Ordertype::create($request->all()));
@@ -79,7 +81,7 @@ class OrdertypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OrdertypeRequest $request, $id)
     {
         //return $this->responseUtil->responseInfo(Ordertype::update($request->all()));
         return response()->responseUtil(Ordertype::update($request->all()));

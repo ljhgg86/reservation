@@ -33,7 +33,7 @@ class MyResponseProvider extends ServiceProvider
                 return response()->json([
                     'status'=>false,
                     'data'=>'',
-                    'message'=>'失败'
+                    'message'=>'访问对象不存在'
                 ],400);
             }
             return response()->json([
