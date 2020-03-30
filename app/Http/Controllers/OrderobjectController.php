@@ -101,27 +101,31 @@ class OrderobjectController extends Controller
      * 返回所有ordertype和orderobject
      */
     public function typesObjects(){
-        return $this->responseUtil->responseInfo($this->ordertype->typesObjects());
+        //return $this->responseUtil->responseInfo($this->ordertype->typesObjects());
+        return response()->responseUtil($this->ordertype->typesObjects());
     }
 
     /**
      * 返回指定type_id的所有orderobject
      */
     public function typeObjects($type_id){
-        return $this->responseUtil->responseInfo($this->orderobject->typeObjects($type_id));
+        //return $this->responseUtil->responseInfo($this->orderobject->typeObjects($type_id));
+        return response()->responseUtil($this->orderobject->typeObjects($type_id));
     }
 
     /**
      * 返回指定id的orderobject,包括关联的ordertype和ordertimerule
      */
     public function object($object_id){
-        return $this->responseUtil->responseInfo($this->orderobject->object($object_id));
+        //return $this->responseUtil->responseInfo($this->orderobject->object($object_id));
+        return response()->responseUtil($this->orderobject->object($object_id));
     }
 
     /**
      * 返回指定id的orderobject，包括关联的ordertimerule和指定日期orderinfo
      */
     public function objectDateTimes($object_id, $date){
-        return $this->responseUtil->responseInfo($this->orderobject->objectDateTimes($object_id,$date));
+        //return $this->responseUtil->responseInfo($this->orderobject->objectDateTimes($object_id,$date));
+        return response()->responseUtil($this->orderobject->objectDateTimes($object_id,$date));
     }
 }

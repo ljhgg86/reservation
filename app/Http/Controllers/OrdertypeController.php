@@ -45,7 +45,8 @@ class OrdertypeController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->responseUtil->responseInfo(Ordertype::create($request->all()));
+        //return $this->responseUtil->responseInfo(Ordertype::create($request->all()));
+        return response()->responseUtil(Ordertype::create($request->all()));
     }
 
     /**
@@ -56,7 +57,8 @@ class OrdertypeController extends Controller
      */
     public function show($id)
     {
-        return $this->responseUtil->responseInfo(Ordertype::where('delFlag', 0)->where('id',$id)->first());
+        //return $this->responseUtil->responseInfo(Ordertype::where('delFlag', 0)->where('id',$id)->first());
+        return response()->responseUtil(Ordertype::where('delFlag', 0)->where('id',$id)->first());
     }
 
     /**
@@ -79,7 +81,8 @@ class OrdertypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->responseUtil->responseInfo(Ordertype::update($request->all()));
+        //return $this->responseUtil->responseInfo(Ordertype::update($request->all()));
+        return response()->responseUtil(Ordertype::update($request->all()));
     }
 
     /**
@@ -90,6 +93,7 @@ class OrdertypeController extends Controller
      */
     public function destroy($id)
     {
-        return $this->responseUtil->responseInfo(Ordertype::where('id', $id)->update(['delFlag'=>1]));
+        //return $this->responseUtil->responseInfo(Ordertype::where('id', $id)->update(['delFlag'=>1]));
+        return response()->responseUtil(Ordertype::where('id', $id)->update(['delFlag'=>1]));
     }
 }
