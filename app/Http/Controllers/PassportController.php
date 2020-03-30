@@ -68,6 +68,6 @@ class PassportController extends Controller
             ],
             'message'=>'成功',
 
-        ], 200)->cookie('refreshToken', $token['refresh_token'], 14400, null, null, false, true);
+        ], 200)->cookie('refreshToken', $token['refresh_token'], 21600, null, null, false, true);
     }
 }
