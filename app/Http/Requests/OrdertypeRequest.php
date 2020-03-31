@@ -25,7 +25,6 @@ class OrdertypeRequest extends FormRequest
     {
         return [
             'typeName'=>'required|unique:ordertype,typeName|max:50',
-            'typeIcon'=>'required',
         ];
     }
 
@@ -40,7 +39,6 @@ class OrdertypeRequest extends FormRequest
             'typeName.required' => '类型名称不能为空',
             'typeName.unique'  => '类型名称已被占用',
             'typeName.max' => '类型名称长度太长',
-            'typeIcon.required' => '类型缩略图不能为空',
         ];
     }
 }

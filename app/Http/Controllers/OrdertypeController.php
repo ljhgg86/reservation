@@ -84,7 +84,7 @@ class OrdertypeController extends Controller
     public function update(OrdertypeRequest $request, $id)
     {
         //return $this->responseUtil->responseInfo(Ordertype::update($request->all()));
-        return response()->responseUtil(Ordertype::update($request->all()));
+        return response()->responseUtil(Ordertype::where('id',$id)->update($request->all()));
     }
 
     /**
