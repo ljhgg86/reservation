@@ -78,4 +78,22 @@ class Orderobject extends Model
                     }])
                     ->first();
     }
+
+    /**
+     * 返回指定id的orderobject的信息和对应指定月份的ordertime信息
+     */
+    public function objectMonth($object_id, $month){
+        return $this->where('id',$object_id)
+                    ->where('delFlag',0)
+                    ->with(['ordertimerules'=>function($query){
+                        $query->where('delFlag',0);
+                    },'ordertime'=>function($query) use($month){
+                        $query->whereMonth('orderDate',$month)
+                                ->where('delFlag',0)
+                                ->with(['orderinfo'=>function($query){
+                                    $query->where('delFlag',0);
+                                }]);
+                    }])
+                    ->first();
+    }
 }

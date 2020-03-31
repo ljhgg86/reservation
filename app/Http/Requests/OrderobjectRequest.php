@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class OrdertypeRequest extends FormRequest
+class OrderobjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,17 +25,17 @@ class OrdertypeRequest extends FormRequest
     public function rules()
     {
         return [
-            //'typeName'=>'required|unique:ordertype,typeName|max:50',
-            'typeName' => ['required',
+            'type_id' => 'required',
+            'objectName' => ['required',
                             'max:50',
-                            Rule::unique('ordertype')->where(function($query){
-                                $query->where('delFlag',0);
+                            Rule::unique('orderobject')->where(function($query){
+                                $query->where('delFlag',0)
+                                        ->where('type_id',request('type_id'));
                             })
                         ]
         ];
     }
-
-    /**
+     /**
      * 获取被定义验证规则的错误消息
      *
      * @return array
@@ -43,9 +43,10 @@ class OrdertypeRequest extends FormRequest
      */
     public function messages(){
         return [
-            'typeName.required' => '类型名称不能为空',
-            'typeName.unique'  => '类型名称已被占用',
-            'typeName.max' => '类型名称长度太长',
+            'type_id.required' => '必须指定类型',
+            'objectName.required' => '类型名称不能为空',
+            'objectName.unique'  => '类型名称已被占用',
+            'objectName.max' => '类型名称长度太长',
         ];
     }
 }

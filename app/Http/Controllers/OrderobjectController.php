@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\OrderobjectRequest;
 use App\Utils\ResponseUtil;
 
 use App\Models\Ordertype;
@@ -28,7 +29,7 @@ class OrderobjectController extends Controller
      */
     public function index()
     {
-        //
+        return response()->responseUtil($this->ordertype->typesObjects());
     }
 
     /**
@@ -47,9 +48,9 @@ class OrderobjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrderobjectRequest $request)
     {
-        //
+        return response()->responseUtil(Orderobject::create($request->all()));
     }
 
     /**
@@ -60,7 +61,7 @@ class OrderobjectController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->responseUtil($this->orderobject->object($id));
     }
 
     /**
@@ -81,9 +82,9 @@ class OrderobjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OrderobjectRequest $request, $id)
     {
-        //
+        return response()->responseUtil(Orderobject::where('id',$id)->update($request->all()));
     }
 
     /**
@@ -94,16 +95,15 @@ class OrderobjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return response()->responseUtil(Orderobject::where('id', $id)->update(['delFlag'=>1]));
     }
 
     /**
      * 返回所有ordertype和orderobject
      */
-    public function typesObjects(){
-        //return $this->responseUtil->responseInfo($this->ordertype->typesObjects());
-        return response()->responseUtil($this->ordertype->typesObjects());
-    }
+    // public function typesObjects(){
+    //     return response()->responseUtil($this->ordertype->typesObjects());
+    // }
 
     /**
      * 返回指定type_id的所有orderobject
@@ -116,10 +116,9 @@ class OrderobjectController extends Controller
     /**
      * 返回指定id的orderobject,包括关联的ordertype和ordertimerule
      */
-    public function object($object_id){
-        //return $this->responseUtil->responseInfo($this->orderobject->object($object_id));
-        return response()->responseUtil($this->orderobject->object($object_id));
-    }
+    // public function object($object_id){
+    //     return response()->responseUtil($this->orderobject->object($object_id));
+    // }
 
     /**
      * 返回指定id的orderobject，包括关联的ordertimerule和指定日期orderinfo
@@ -127,5 +126,12 @@ class OrderobjectController extends Controller
     public function objectDateTimes($object_id, $date){
         //return $this->responseUtil->responseInfo($this->orderobject->objectDateTimes($object_id,$date));
         return response()->responseUtil($this->orderobject->objectDateTimes($object_id,$date));
+    }
+
+    /**
+     * 返回指定id的orderobject，包括关联的ordertimerule和指定月份orderinfo
+     */
+    public function objectMonth($object_id, $month){
+        return response()->responseUtil($this->orderobject->objectMonth($object_id,$month));
     }
 }
