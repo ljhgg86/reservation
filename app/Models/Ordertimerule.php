@@ -25,4 +25,16 @@ class Ordertimerule extends Model
     public function orderobject(){
         return $this->belongsTo(Orderobject::class,'object_id');
     }
+
+    /**
+     * 获取指定object_id的timerule
+     *
+     * @param [int] $object_id
+     * @return void
+     */
+    public function objectTimerules($object_id){
+        return $this->where('object_id',$object_id)
+                    ->where('delFlag',0)
+                    ->get();
+    }
 }

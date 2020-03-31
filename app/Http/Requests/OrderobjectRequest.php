@@ -44,9 +44,9 @@ class OrderobjectRequest extends FormRequest
     public function messages(){
         return [
             'type_id.required' => '必须指定类型',
-            'objectName.required' => '类型名称不能为空',
-            'objectName.unique'  => '类型名称已被占用',
-            'objectName.max' => '类型名称长度太长',
+            'objectName.required' => '名称不能为空',
+            'objectName.unique'  => '名称已被占用',
+            'objectName.max' => '名称长度太长',
         ];
     }
 }

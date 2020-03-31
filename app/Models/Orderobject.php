@@ -39,6 +39,17 @@ class Orderobject extends Model
     }
 
     /**
+     * 返回所有ordertype和orderobject
+     */
+    public function typesObjects(){
+        return $this->where('delFlag',0)
+                    ->with(['ordertype'=>function($query){
+                        $query->where('delFlag',0);
+                    }])
+                    ->get();
+    }
+
+    /**
      * 返回指定type_id的所有orderobject
      */
     public function typeObjects($type_id){

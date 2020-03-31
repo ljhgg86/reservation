@@ -29,7 +29,7 @@ class OrderobjectController extends Controller
      */
     public function index()
     {
-        return response()->responseUtil($this->ordertype->typesObjects());
+        return response()->responseUtil($this->orderobject->typesObjects());
     }
 
     /**
