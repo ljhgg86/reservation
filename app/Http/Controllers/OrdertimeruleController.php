@@ -49,7 +49,7 @@ class OrdertimeruleController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->responseUtil($this->timeruleWithObject($id));
     }
 
     /**

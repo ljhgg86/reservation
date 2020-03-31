@@ -37,4 +37,13 @@ class Ordertimerule extends Model
                     ->where('delFlag',0)
                     ->get();
     }
+
+    public function timeruleWithObject($id){
+        return $this->where('id', $id)
+                    ->where('delFlag',0)
+                    ->with(['orderobject'=>function($query){
+                        $query->where('delFlag', 0);
+                    }])
+                    ->first();
+    }
 }

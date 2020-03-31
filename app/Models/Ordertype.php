@@ -29,11 +29,11 @@ class Ordertype extends Model
     /**
      * 返回所有ordertype和orderobject
      */
-    public function typesObjects(){
-        return $this->where('delFlag',0)
-                    ->with(['orderobjects'=>function($query){
-                        $query->where('delFlag',0);
-                    }])
-                    ->get();
-    }
+    // public function typesObjects(){
+    //     return $this->where('delFlag',0)
+    //                 ->with(['orderobjects'=>function($query){
+    //                     $query->where('delFlag',0);
+    //                 }])
+    //                 ->get();
+    // }
 }
