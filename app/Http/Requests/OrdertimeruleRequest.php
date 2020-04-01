@@ -25,7 +25,8 @@ class OrdertimeruleRequest extends FormRequest
     {
         return [
             'object_id' => 'required',
-            'weekDate' => 'required'
+            'weekDate' => 'required',
+            'endTime' => 'gte:beginTime',
         ];
     }
     /**
@@ -38,6 +39,7 @@ class OrdertimeruleRequest extends FormRequest
         return [
             'object_id.required' => '必须指定实物',
             'weekDate.required' => '星期不能为空',
+            'endTime.gte' => '结束时间必须不小于开始时间',
         ];
     }
 }

@@ -47,6 +47,10 @@ class User extends Authenticatable
         return $this->hasMany(Orderinfo::class, 'checker_id');
     }
 
+    public function authorities(){
+        return $this->belongsToMany(Authority::class,'autority_users','users_id','authority_id');
+    }
+
     public function findForPassport($username)
     {
         // $this->validatePhone($username) ?
