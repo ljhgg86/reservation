@@ -38,4 +38,19 @@ class Orderinfo extends Model
         return $this->hasMany(Ordertime::class, 'object_id');
     }
 
+    /**
+     * 返回listcount条info
+     *
+     * @param [int] $listCount
+     * @param [int] $minId
+     * @return void
+     */
+    public function getInfos($listCount, $minId){
+        return $this->where('id','<',$minId)
+                    ->where('delFlag',0)
+                    ->with('proposer','checker','ordertimes','orderobject.ordertype')
+                    ->orderBy('id','DESC')
+                    ->take($listCount);
+    }
+
 }

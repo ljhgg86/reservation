@@ -26,7 +26,7 @@ class OrdertypeController extends Controller
     public function index()
     {
         //return $this->responseUtil->responseInfo(Ordertype::where('delFlag', 0)->get());
-        return response()->responseUtil(Ordertype::where('delFlag', 0)->get());
+        return response()->responseUtil(Ordertype::all());
     }
 
     /**
@@ -57,10 +57,10 @@ class OrdertypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Ordertype $ordertype)
     {
         //return $this->responseUtil->responseInfo(Ordertype::where('delFlag', 0)->where('id',$id)->first());
-        return response()->responseUtil(Ordertype::where('delFlag', 0)->where('id',$id)->first());
+        return response()->responseUtil($ordertype);
     }
 
     /**
@@ -81,10 +81,10 @@ class OrdertypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OrdertypeRequest $request, $id)
+    public function update(OrdertypeRequest $request, Ordertype $ordertype)
     {
         //return $this->responseUtil->responseInfo(Ordertype::update($request->all()));
-        return response()->responseUtil(Ordertype::where('id',$id)->update($request->all()));
+        return response()->responseUtil($ordertype->update($request->all()));
     }
 
     /**
@@ -93,9 +93,9 @@ class OrdertypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Ordertype $ordertype)
     {
-        //return $this->responseUtil->responseInfo(Ordertype::where('id', $id)->update(['delFlag'=>1]));
-        return response()->responseUtil(Ordertype::where('id', $id)->update(['delFlag'=>1]));
+        // return response()->responseUtil(Ordertype::where('id', $id)->update(['delFlag'=>1]));
+        return response()->responseUtil($ordertype->delete());
     }
 }
