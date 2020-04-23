@@ -47,7 +47,6 @@ class OrdertypeController extends Controller
      */
     public function store(OrdertypeRequest $request)
     {
-        //return $this->responseUtil->responseInfo(Ordertype::create($request->all()));
         return response()->responseUtil(Ordertype::create($request->all()));
     }
 
@@ -59,7 +58,6 @@ class OrdertypeController extends Controller
      */
     public function show(Ordertype $ordertype)
     {
-        //return $this->responseUtil->responseInfo(Ordertype::where('delFlag', 0)->where('id',$id)->first());
         return response()->responseUtil($ordertype);
     }
 
@@ -83,8 +81,7 @@ class OrdertypeController extends Controller
      */
     public function update(OrdertypeRequest $request, Ordertype $ordertype)
     {
-        //return $this->responseUtil->responseInfo(Ordertype::update($request->all()));
-        return response()->responseUtil($ordertype->fill($request->all()));
+        return response()->responseUtil($ordertype->update($request->all()));
     }
 
     /**
@@ -95,7 +92,6 @@ class OrdertypeController extends Controller
      */
     public function destroy(Ordertype $ordertype)
     {
-        // return response()->responseUtil(Ordertype::where('id', $id)->update(['delFlag'=>1]));
         return response()->responseUtil($ordertype->delete());
     }
 }
