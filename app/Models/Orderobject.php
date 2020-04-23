@@ -53,7 +53,7 @@ class Orderobject extends Model
      */
     public function typeObjects($type_id){
         return $this->where('type_id',$type_id)
-                    ->first();
+                    ->get();
     }
 
     /**
@@ -70,7 +70,7 @@ class Orderobject extends Model
      */
     public function objectDateTimes($object_id, $date){
         return $this->where('id',$object_id)
-                    ->with(['ordertimerules','ordertime'=>function($query) use($date) {
+                    ->with(['ordertimerules','ordertimes'=>function($query) use($date) {
                         $query->where('orderDate',$date)
                                 ->with('orderinfo');
                     }])
@@ -82,7 +82,7 @@ class Orderobject extends Model
      */
     public function objectMonth($object_id, $month){
         return $this->where('id',$object_id)
-                    ->with(['ordertimerules','ordertime'=>function($query) use($month){
+                    ->with(['ordertimerules','ordertimes'=>function($query) use($month){
                         $query->whereMonth('orderDate',$month)
                                 ->with('orderinfo');
                     }])
