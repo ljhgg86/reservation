@@ -47,9 +47,9 @@ class OrdertimeruleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Ordertimerule $ordertimerule)
     {
-        return response()->responseUtil($this->timeruleWithObject($id));
+        return response()->responseUtil($ordertimerule->with('orderobject')->first());
     }
 
     /**
@@ -59,9 +59,9 @@ class OrdertimeruleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OrdertimeruleRequest $request, $id)
+    public function update(OrdertimeruleRequest $request, Ordertimerule $ordertimerule)
     {
-        return response()->responseUtil(Ordertimerule::where('id',$id)->update($request->all()));
+        return response()->responseUtil($ordertimerule->update($request->all()));
     }
 
     /**
@@ -70,9 +70,9 @@ class OrdertimeruleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Ordertimerule $ordertimerule)
     {
-        return response()->responseUtil(Ordertimerule::where('id', $id)->update(['delFlag'=>1]));
+        return response()->responseUtil($ordertimerule->delete());
     }
 
     /**

@@ -59,9 +59,9 @@ class OrderobjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Orderobject $orderobject)
     {
-        return response()->responseUtil($this->orderobject->object($id));
+        return response()->responseUtil($orderobject->with('ordertype','ordertimerules')->first());
     }
 
     /**
@@ -82,9 +82,9 @@ class OrderobjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OrderobjectRequest $request, $id)
+    public function update(OrderobjectRequest $request, Orderobject $orderobject)
     {
-        return response()->responseUtil(Orderobject::where('id',$id)->update($request->all()));
+        return response()->responseUtil($orderobject->update($request->all()));
     }
 
     /**
@@ -93,9 +93,9 @@ class OrderobjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Orderobject $orderobject)
     {
-        return response()->responseUtil(Orderobject::where('id', $id)->update(['delFlag'=>1]));
+        return response()->responseUtil($orderobject->delete());
     }
 
     /**

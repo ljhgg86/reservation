@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ordertimerule extends Model
 {
+    use SoftDeletes;
     /**
      * 关联到模型的数据表
      *
@@ -34,16 +36,15 @@ class Ordertimerule extends Model
      */
     public function objectTimerules($object_id){
         return $this->where('object_id',$object_id)
-                    ->where('delFlag',0)
                     ->get();
     }
 
-    public function timeruleWithObject($id){
-        return $this->where('id', $id)
-                    ->where('delFlag',0)
-                    ->with(['orderobject'=>function($query){
-                        $query->where('delFlag', 0);
-                    }])
-                    ->first();
-    }
+    // public function timeruleWithObject($id){
+    //     return $this->where('id', $id)
+    //                 ->where('delFlag',0)
+    //                 ->with(['orderobject'=>function($query){
+    //                     $query->where('delFlag', 0);
+    //                 }])
+    //                 ->first();
+    // }
 }

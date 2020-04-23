@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Orderobject extends Model
 {
+    use SoftDeletes;
     /**
      * 关联到模型的数据表
      *
@@ -42,10 +44,7 @@ class Orderobject extends Model
      * 返回所有ordertype和orderobject
      */
     public function typesObjects(){
-        return $this->where('delFlag',0)
-                    ->with(['ordertype'=>function($query){
-                        $query->where('delFlag',0);
-                    }])
+        return $this->with('ordertype')
                     ->get();
     }
 
@@ -53,39 +52,27 @@ class Orderobject extends Model
      * 返回指定type_id的所有orderobject
      */
     public function typeObjects($type_id){
-        return $this->where('delFlag',0)
-                    ->where('type_id',$type_id)
+        return $this->where('type_id',$type_id)
                     ->first();
     }
 
     /**
      * 返回指定id的orderobject,包括关联的ordertype和ordertimerule信息
      */
-    public function object($object_id){
-        return $this->where('delFlag',0)
-                    ->where('id',$object_id)
-                    ->with(['ordertype'=>function($query){
-                        $query->where('delFlag',0);
-                    },'ordertimerules'=>function($query){
-                        $query->where('delFlag',0);
-                    }])
-                    ->first();
-    }
+    // public function object($object_id){
+    //     return $this->where('id',$object_id)
+    //                 ->with('ordertype','ordertimerules')
+    //                 ->first();
+    // }
 
     /**
      * 返回指定id的orderobject的信息和对应指定日期的ordertime信息
      */
     public function objectDateTimes($object_id, $date){
         return $this->where('id',$object_id)
-                    ->where('delFlag',0)
-                    ->with(['ordertimerules'=>function($query){
-                        $query->where('delFlag',0);
-                    },'ordertime'=>function($query) use($date) {
+                    ->with(['ordertimerules','ordertime'=>function($query) use($date) {
                         $query->where('orderDate',$date)
-                                ->where('delFlag',0)
-                                ->with(['orderinfo'=>function($query){
-                                    $query->where('delFlag',0);
-                                }]);
+                                ->with('orderinfo');
                     }])
                     ->first();
     }
@@ -95,15 +82,9 @@ class Orderobject extends Model
      */
     public function objectMonth($object_id, $month){
         return $this->where('id',$object_id)
-                    ->where('delFlag',0)
-                    ->with(['ordertimerules'=>function($query){
-                        $query->where('delFlag',0);
-                    },'ordertime'=>function($query) use($month){
+                    ->with(['ordertimerules','ordertime'=>function($query) use($month){
                         $query->whereMonth('orderDate',$month)
-                                ->where('delFlag',0)
-                                ->with(['orderinfo'=>function($query){
-                                    $query->where('delFlag',0);
-                                }]);
+                                ->with('orderinfo');
                     }])
                     ->first();
     }
