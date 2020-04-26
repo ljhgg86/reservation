@@ -21,7 +21,7 @@ class Orderinfo extends Model
      * @var array
      */
     protected $fillable = [
-        'proposer_id', 'object_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id',
+        'object_id', 'applyReason', 'applyTime', 'programName', 'applyStatus',
     ];
 
     public function orderobject(){
@@ -45,14 +45,107 @@ class Orderinfo extends Model
      *
      * @param [int] $listCount
      * @param [int] $minId
-     * @return void
+     * @return collection
      */
     public function getInfos($listCount, $minId){
         return $this->where('id','<',$minId)
-                    ->where('delFlag',0)
                     ->with('proposer','checker','ordertimes','orderobject.ordertype')
                     ->orderBy('id','DESC')
                     ->take($listCount);
+    }
+
+    /**
+     * 返回指定ordertype的listcount条info
+     *
+     * @param [int] $type_id
+     * @param [int] $listCount
+     * @param [int] $minId
+     * @return collection
+     */
+    public function typeInfos($type_id, $listCount, $minId){
+        $objectIds = Orderobject::where('type_id',$type_id)->select('id')->get();
+        return $this->whereIn('object_id', $objectIds)
+                    ->where('id','<',$minId)
+                    ->with('proposer','checker','ordertimes','orderobject.ordertype')
+                    ->orderBy('id','DESC')
+                    ->take($listCount);
+    }
+
+    /**
+     * 返回指定orderobject的listcount条info
+     *
+     * @param [int] $object_id
+     * @param [int] $listCount
+     * @param [int] $minId
+     * @return collection
+     */
+    public function objectInfos($object_id, $listCount, $minId){
+        return $this->where('object_id', $object_id)
+                    ->where('id','<',$minId)
+                    ->with('proposer','checker','ordertimes','orderobject.ordertype')
+                    ->orderBy('id','DESC')
+                    ->take($listCount);
+    }
+
+    /**
+     * 返回指定用户的listcount条info
+     *
+     * @param [int] $proposer
+     * @param [int] $listCount
+     * @param [int] $minId
+     * @return collection
+     */
+    public function userInfos($proposer, $listCount, $minId){
+        return $this->where('proposer_id', $proposer->id)
+                    ->where('id','<',$minId)
+                    ->with('checker','ordertimes','orderobject.ordertype')
+                    ->orderBy('id','DESC')
+                    ->take($listCount);
+    }
+
+    /**
+     * 返回指定用户指定ordertype的listcount条info
+     *
+     * @param [User] $proposer
+     * @param [int] $type_id
+     * @param [int] $listCount
+     * @param [int] $minId
+     * @return void
+     */
+    public function userTypeInfos($proposer, $type_id, $listCount, $minId){
+        $objectIds = Orderobject::where('type_id',$type_id)->select('id')->get();
+        return $this->whereIn('object_id', $objectIds)
+                    ->where('proposer_id', $proposer->id)
+                    ->where('id','<',$minId)
+                    ->with('proposer','checker','ordertimes','orderobject.ordertype')
+                    ->orderBy('id','DESC')
+                    ->take($listCount);
+    }
+
+    /**
+     * 返回指定用户指定object的listcount条info
+     *
+     * @param [User] $proposer
+     * @param [int] $object_id
+     * @param [int] $listCount
+     * @param [int] $minId
+     * @return void
+     */
+    public function userObjectInfos($proposer, $object_id, $listCount, $minId){
+        return $this->where('object_id', $object_id)
+                    ->where('proposer_id', $proposer->id)
+                    ->where('id','<',$minId)
+                    ->with('proposer','checker','ordertimes','orderobject.ordertype')
+                    ->orderBy('id','DESC')
+                    ->take($listCount);
+    }
+
+    public function store($requestInfo){
+        $ordertimes = Ordertime::where('object_id',$requestInfo['object_id'])
+                                ->where('orderDate',$requestInfo['orderDate'])
+                                ->where('applyStatus','<',2)
+                                ->select('orderTime')
+                                ->get();
     }
 
 }
