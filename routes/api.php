@@ -28,4 +28,12 @@ Route::prefix('v2')->group(function(){
     Route::get('objecttimerules','OrdertimeruleController@objectTimerules')->middleware('auth:api');
     Route::apiResource('ordertimerule','OrdertimeruleController',['except' => ['index']])->middleware('auth:api');
 
+    Route::get('typeinfos/{type_id}','OrderinfoController@typeInfos')->middleware('auth:api');
+    Route::get('objectinfos/{object_id}','OrderinfoController@objectInfos')->middleware('auth:api');
+    Route::get('userinfos','OrderinfoController@userInfos')->middleware('auth:api');
+    Route::get('usertypeinfos/{type_id}','OrderinfoController@userTypeInfos')->middleware('auth:api');
+    Route::get('userobjectinfos/{object_id}','OrderinfoController@userObjectInfos')->middleware('auth:api');
+    Route::apiResource('orderinfo','OrderinfoController')->middleware('auth:api');
+
+
 });

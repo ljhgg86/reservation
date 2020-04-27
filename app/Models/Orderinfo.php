@@ -146,6 +146,24 @@ class Orderinfo extends Model
                                 ->where('applyStatus','<',2)
                                 ->select('orderTime')
                                 ->get();
+        $beginHour = Date("H",$requestInfo['beginTime']);
+        $endHour = Date("H",$requestInfo['endTime']);
+        $infotimes = collect();
+        for($hour = $beginHour;$hour<$endHour;$hour++){
+            if($ordertimes>contains($hour)){
+                return false;
+            }
+            $infotimes->concat(['object_id'=>$requestInfo['object_id'],
+                                'orderDate'=>$requestInfo['orderDate'],
+                                'orderTime'=>$hour,
+                                ]);
+        }
+        $orderInfo = new Orderinfo($requestInfo);
+        $orderInfo->proposer_id = request()->user()->id;
+        $orderInfo->save();
+        return $infotimes->each(function($infotime) use($orderInfo){
+            $orderInfo->ordertimes()->save($infotime);
+        });
     }
 
 }
