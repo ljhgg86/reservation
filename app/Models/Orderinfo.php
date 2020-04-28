@@ -51,7 +51,8 @@ class Orderinfo extends Model
         return $this->where('id','<',$minId)
                     ->with('proposer','checker','ordertimes','orderobject.ordertype')
                     ->orderBy('id','DESC')
-                    ->take($listCount);
+                    ->take($listCount)
+                    ->get();
     }
 
     /**
@@ -68,7 +69,8 @@ class Orderinfo extends Model
                     ->where('id','<',$minId)
                     ->with('proposer','checker','ordertimes','orderobject.ordertype')
                     ->orderBy('id','DESC')
-                    ->take($listCount);
+                    ->take($listCount)
+                    ->get();
     }
 
     /**
@@ -84,7 +86,8 @@ class Orderinfo extends Model
                     ->where('id','<',$minId)
                     ->with('proposer','checker','ordertimes','orderobject.ordertype')
                     ->orderBy('id','DESC')
-                    ->take($listCount);
+                    ->take($listCount)
+                    ->get();
     }
 
     /**
@@ -100,7 +103,8 @@ class Orderinfo extends Model
                     ->where('id','<',$minId)
                     ->with('checker','ordertimes','orderobject.ordertype')
                     ->orderBy('id','DESC')
-                    ->take($listCount);
+                    ->take($listCount)
+                    ->get();
     }
 
     /**
@@ -119,7 +123,8 @@ class Orderinfo extends Model
                     ->where('id','<',$minId)
                     ->with('proposer','checker','ordertimes','orderobject.ordertype')
                     ->orderBy('id','DESC')
-                    ->take($listCount);
+                    ->take($listCount)
+                    ->get();
     }
 
     /**
@@ -137,7 +142,8 @@ class Orderinfo extends Model
                     ->where('id','<',$minId)
                     ->with('proposer','checker','ordertimes','orderobject.ordertype')
                     ->orderBy('id','DESC')
-                    ->take($listCount);
+                    ->take($listCount)
+                    ->get();
     }
 
     public function store($requestInfo){
@@ -146,23 +152,28 @@ class Orderinfo extends Model
                                 ->where('applyStatus','<',2)
                                 ->select('orderTime')
                                 ->get();
-        $beginHour = Date("H",$requestInfo['beginTime']);
-        $endHour = Date("H",$requestInfo['endTime']);
-        $infotimes = collect();
+        $beginHour = intval(Date("H",strtotime($requestInfo['beginTime'])));
+        $endHour = intval(Date("H",strtotime($requestInfo['endTime'])));
+        $infotimes = array();
         for($hour = $beginHour;$hour<$endHour;$hour++){
-            if($ordertimes>contains($hour)){
+            if($ordertimes->contains($hour)){
                 return false;
             }
-            $infotimes->concat(['object_id'=>$requestInfo['object_id'],
-                                'orderDate'=>$requestInfo['orderDate'],
-                                'orderTime'=>$hour,
-                                ]);
+            $infotime = ['object_id'=>$requestInfo['object_id'],
+            'orderDate'=>$requestInfo['orderDate'],
+            'orderTime'=>$hour,
+            ];
+            array_push($infotimes,$infotime);
         }
+        $infotimes = collect($infotimes);
+        dump($infotimes);
         $orderInfo = new Orderinfo($requestInfo);
         $orderInfo->proposer_id = request()->user()->id;
         $orderInfo->save();
         return $infotimes->each(function($infotime) use($orderInfo){
-            $orderInfo->ordertimes()->save($infotime);
+            $infotime['info_id'] = $orderInfo->id;
+            $ordertime = new Ordertime;
+            $ordertime->save($infotime);
         });
     }
 
