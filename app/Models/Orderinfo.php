@@ -155,26 +155,39 @@ class Orderinfo extends Model
         $beginHour = intval(Date("H",strtotime($requestInfo['beginTime'])));
         $endHour = intval(Date("H",strtotime($requestInfo['endTime'])));
         $infotimes = array();
-        for($hour = $beginHour;$hour<$endHour;$hour++){
-            if($ordertimes->contains($hour)){
+        for($hour = $beginHour;$hour<$endHour;$hour++){dump($hour);
+            $hour_time = Date("H:i:s",mktime($hour,0,0));
+            if($ordertimes->contains("orderTime",$hour_time)){
                 return false;
             }
-            $infotime = ['object_id'=>$requestInfo['object_id'],
+            $infotime = ['object_id'=>intval($requestInfo['object_id']),
             'orderDate'=>$requestInfo['orderDate'],
-            'orderTime'=>$hour,
+            'orderTime'=>$hour_time,
             ];
             array_push($infotimes,$infotime);
         }
         $infotimes = collect($infotimes);
-        dump($infotimes);
         $orderInfo = new Orderinfo($requestInfo);
         $orderInfo->proposer_id = request()->user()->id;
         $orderInfo->save();
         return $infotimes->each(function($infotime) use($orderInfo){
             $infotime['info_id'] = $orderInfo->id;
             $ordertime = new Ordertime;
-            $ordertime->save($infotime);
+            $ordertime->create($infotime);
         });
+    }
+
+    public function storeInfo($requestInfo){
+        $ordertimes = Ordertime::where('object_id',$requestInfo['object_id'])
+                                ->whereIn('orderDate',$requestInfo['orderDate'])
+                                ->where('applyStatus','<',2)
+                                ->select('orderDate', 'orderTime')
+                                ->groupBy('orderDate')
+                                ->get();
+        $ordertimes->each(function($ordertime){
+
+        });
+
     }
 
 }
