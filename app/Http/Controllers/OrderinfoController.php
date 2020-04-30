@@ -37,7 +37,7 @@ class OrderinfoController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->responseUtil($this->orderinfo->store($request->all()));
+        return response()->responseUtil($this->orderinfo->storeInfo($request->all()));
     }
 
     /**

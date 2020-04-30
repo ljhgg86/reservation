@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
+use DB;
 
 class Orderinfo extends Model
 {
@@ -178,16 +180,43 @@ class Orderinfo extends Model
     }
 
     public function storeInfo($requestInfo){
+        $orderTimeInfos = $requestInfo['orderTimes'];
+        $orderDates = Arr::pluck($requestInfo['orderTimes'],'orderDate');
         $ordertimes = Ordertime::where('object_id',$requestInfo['object_id'])
-                                ->whereIn('orderDate',$requestInfo['orderDate'])
+                                ->whereIn('orderDate',$orderDates)
                                 ->where('applyStatus','<',2)
                                 ->select('orderDate', 'orderTime')
                                 ->groupBy('orderDate')
                                 ->get();
-        $ordertimes->each(function($ordertime){
 
+        $infotimes = array();
+        foreach($orderTimeInfos as $orderTimeInfo){
+            $ordertime = $ordertimes->filter(function($value,$key) use ($orderTimeInfo){
+                return $orderTimeInfo['orderDate'] == $value->orderDate;
+            });
+            $beginHour = strtotime($orderTimeInfo['beginTime']);
+            $endHour = strtotime($orderTimeInfo['endTime']);
+            for($hour = $beginHour;$hour<$endHour;$hour+=3600){
+                $hourTime = Date("H:i:s",$hour);
+                if($ordertime->isNotEmpty() && $ordertime->contains('orderTime',$hourTime)){
+                    return false;
+                }
+                $infotime = ['object_id'=>intval($requestInfo['object_id']),
+                'orderDate'=>$orderTimeInfo['orderDate'],
+                'orderTime'=>$hourTime,
+                ];
+                array_push($infotimes,$infotime);
+            }
+        }
+        $infotimes = collect($infotimes);
+        $orderInfo = new Orderinfo($requestInfo);
+        $orderInfo->proposer_id = request()->user()->id;
+        $orderInfo->save();
+        $orderInfoTimes = $infotimes->map(function($item) use ($orderInfo){
+            $item['info_id'] = $orderInfo->id;
+            return $item;
         });
-
+        return DB::table('orderinfo')->insert($orderInfoTimes->toArray());
     }
 
 }
