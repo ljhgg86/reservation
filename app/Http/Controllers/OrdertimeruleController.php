@@ -47,9 +47,9 @@ class OrdertimeruleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Ordertimerule $ordertimerule)
+    public function show($id)
     {
-        return response()->responseUtil($ordertimerule->with('orderobject')->first());
+        return response()->responseUtil($this->ordertimerule->where('id',$id)->with('orderobject')->first());
     }
 
     /**

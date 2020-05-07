@@ -37,7 +37,20 @@ class OrderinfoController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->responseUtil($this->orderinfo->storeInfo($request->all()));
+        //return response()->responseUtil($this->orderinfo->storeInfo($request->all()));
+        $rst = $this->orderinfo->storeInfo($request->all());
+        if(!$rst['status']){
+            return response()->json([
+                'status'=>false,
+                'data'=>'',
+                'message'=>$rst['tipInfo']
+            ],400);
+        }
+        return response()->json([
+            'status'=>true,
+            'data'=>$rst['tipInfo'],
+            'message'=>'成功'
+        ],200);
     }
 
     /**
@@ -46,9 +59,9 @@ class OrderinfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Orderinfo $orderinfo)
+    public function show($id)
     {
-        return response()->responseUtil($orderinfo->with('proposer','checker','ordertimes','orderobject.ordertype')->first());
+        return response()->responseUtil($this->orderinfo->where('id',$id)->with('proposer','checker','ordertimes','orderobject.ordertype')->first());
     }
 
     /**
@@ -93,7 +106,7 @@ class OrderinfoController extends Controller
      * @return responseutil
      */
     public function objectInfos(Request $request, $object_id){
-        return response()->responseUtil($this->orderinfo->typeInfos($object_id,$request->input('listCount'),$request->input('minId')));
+        return response()->responseUtil($this->orderinfo->objectInfos($object_id,$request->input('listCount'),$request->input('minId')));
     }
 
     /**

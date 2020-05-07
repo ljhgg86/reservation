@@ -59,9 +59,9 @@ class OrderobjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Orderobject $orderobject)
+    public function show($id)
     {
-        return response()->responseUtil($orderobject->with('ordertype','ordertimerules')->first());
+        return response()->responseUtil($this->orderobject->where('id',$id)->with('ordertype','ordertimerules')->first());
     }
 
     /**
