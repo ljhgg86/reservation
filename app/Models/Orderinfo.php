@@ -201,8 +201,9 @@ class Orderinfo extends Model
                                 ->whereIn('orderDate',$orderDates)
                                 ->where('applyStatus','<',2)
                                 ->select('orderDate', 'orderTime')
+                                ->get()
                                 ->groupBy('orderDate')
-                                ->get();
+                                ->collapse();
 
         $infotimes = $this->orderInfoTimesArr($orderTimeInfos, $ordertimes, intval($requestInfo['object_id']));
         if(!$infotimes){
@@ -253,7 +254,7 @@ class Orderinfo extends Model
             });
             $beginHour = strtotime($orderTimeInfo['beginTime']);
             $endHour = strtotime($orderTimeInfo['endTime']);
-            for($hour = $beginHour;$hour<$endHour;$hour+=3600){
+            for($hour = $beginHour;$hour<$endHour;$hour+=1800){
                 $hourTime = Date("H:i:s",$hour);
                 if($ordertime->isNotEmpty() && $ordertime->contains('orderTime',$hourTime)){
                     return false;
