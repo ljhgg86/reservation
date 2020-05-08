@@ -81,9 +81,12 @@ class Orderobject extends Model
      * 返回指定id的orderobject的信息和对应指定月份的ordertime信息
      */
     public function objectMonth($object_id, $month){
+        $y = date('Y',strtotime($month));
+        $m = date('m',strtotime($month));
         return $this->where('id',$object_id)
-                    ->with(['ordertimerules','ordertimes'=>function($query) use($month){
-                        $query->whereMonth('orderDate',$month)
+                    ->with(['ordertimerules','ordertimes'=>function($query) use($y,$m){
+                        $query->whereYear('orderDate',$y)
+                                ->whereMonth('orderDate',$m)
                                 ->with('orderinfo');
                     }])
                     ->first();
