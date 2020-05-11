@@ -38,7 +38,7 @@ class OrderinfoController extends Controller
     public function store(Request $request)
     {
         //return response()->responseUtil($this->orderinfo->storeInfo($request->all()));
-        $rst = $this->orderinfo->storeInfo($request->all());
+        $rst = $this->orderinfo->store($request->all());
         if(!$rst['status']){
             return response()->json([
                 'status'=>false,

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+//use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ordertime extends Model
@@ -21,7 +23,7 @@ class Ordertime extends Model
      * @var array
      */
     protected $fillable = [
-        'object_id', 'info_id', 'orderDate', 'orderTime', 'applyStatus',
+        'object_id', 'info_id', 'orderDate', 'applyStatus', 'beginTime', 'endTime'
     ];
 
     public function orderobject(){
@@ -30,5 +32,9 @@ class Ordertime extends Model
 
     public function orderinfo(){
         return $this->belongsTo(Orderinfo::class,'info_id');
+    }
+
+    public function scopeTimesByDatetime($query){
+        return $query->orderBy('orderDate','ASC')->orderBy('beginTime','ASC');
     }
 }
