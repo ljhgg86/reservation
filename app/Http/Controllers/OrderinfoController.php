@@ -73,7 +73,19 @@ class OrderinfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rst = $this->orderinfo->updateInfo($request->all(), $id);
+        if(!$rst['status']){
+            return response()->json([
+                'status'=>false,
+                'data'=>'',
+                'message'=>$rst['tipInfo']
+            ],400);
+        }
+        return response()->json([
+            'status'=>true,
+            'data'=>$rst['tipInfo'],
+            'message'=>'成功'
+        ],200);
     }
 
     /**
@@ -139,5 +151,16 @@ class OrderinfoController extends Controller
      */
     public function userObjectInfos(Request $request, $object_id){
         return response()->responseUtil($this->orderinfo->userInfos(request()->user(),$object_id,$request->input('listCount'),$request->input('minId')));
+    }
+
+    /**
+     * 审核预约信息
+     *
+     * @param Request $request
+     * @param [int] $id
+     * @return responseutil
+     */
+    public function verifyInfos(Request $request, $id){
+        return response()->responseUtil($this->orderinfo->verifyInfo($request->input('applyStatus'),$id));
     }
 }

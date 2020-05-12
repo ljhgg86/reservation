@@ -332,7 +332,7 @@ class Orderinfo extends Model
     /**
      * 判断两个时间段是否有交集，有则返回true，否则false
      */
-    function isTimeCross($beginTime1 = '', $endTime1 = '', $beginTime2 = '', $endTime2 = ''){
+    public function isTimeCross($beginTime1 = '', $endTime1 = '', $beginTime2 = '', $endTime2 = ''){
         $beginTime1 = strtotime($beginTime1);
         $endTime1 = strtotime($endTime1);
         $beginTime2 = strtotime($beginTime2);
@@ -363,6 +363,60 @@ class Orderinfo extends Model
             }else{
                 return true;
             }
+        }
+    }
+
+    /**
+     * 修改提交的信息
+     */
+    public function updateInfo($requestInfo, $id){
+        $orderTimeInfos = $requestInfo['orderTimes'];
+        /*选取请求日期中已被预订的时间*/
+        $orderDates = Arr::pluck($requestInfo['orderTimes'],'orderDate');
+        $ordertimes = Ordertime::where('object_id',$requestInfo['object_id'])
+                                ->whereIn('orderDate',$orderDates)
+                                ->where('info_id','<>',$id)
+                                ->where('applyStatus','<',2)
+                                ->select('orderDate', 'beginTime','endTime')
+                                ->get()
+                                ->groupBy('orderDate')
+                                ->collapse();
+
+        $infotimes = $this->orderInfoTimesArr1($orderTimeInfos, $ordertimes, intval($requestInfo['object_id']));
+        if(!$infotimes){
+            $ordered_timeStr = $this->orderDateTimeStr1($ordertimes);
+            return array('status'=>false,'tipInfo'=>$ordered_timeStr);
+        }
+        DB::beginTransaction();
+        try{
+            $orderInfo = $this->find($id);
+            $orderInfo->proposer_id = request()->user()->id;
+            $orderInfo->save();
+            $orderInfo->ordertimes()->delete();
+            $orderInfo->ordertimes()->createMany($infotimes);
+            DB::commit();
+            return array('status'=>true,'tipInfo'=>$orderInfo);
+        }catch(Exception $e){
+            DB::rollBack();
+            return array('status'=>false,'tipInfo'=>"Fail,please try again!");
+        }
+    }
+
+    /**
+     * 审核
+     */
+    public function verifyInfo($verifyStatus, $id){
+        DB::beginTransaction();
+        try{
+            $orderInfo = $this->find($id);
+            $orderInfo->applyStatus = $verifyStatus;
+            $orderInfo->checker_id = request()->user()->id;
+            $orderInfo->save();
+            DB::commit();
+            return $orderInfo;
+        }catch(Exception $e){
+            DB::rollBack();
+            return false;
         }
     }
 }
