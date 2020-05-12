@@ -390,6 +390,11 @@ class Orderinfo extends Model
         DB::beginTransaction();
         try{
             $orderInfo = $this->find($id);
+            if($orderInfo->applyStatus == 1){
+                return array('status'=>false,'tipInfo'=>"无法修改已经通过审核的预约!");
+            }
+            $orderInfo->applyReason = $requestInfo['applyReason'];
+            $orderInfo->programName = $requestInfo['programName'];
             $orderInfo->proposer_id = request()->user()->id;
             $orderInfo->save();
             $orderInfo->ordertimes()->delete();
