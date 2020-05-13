@@ -32,6 +32,12 @@ class Orderfeedback extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
+    /**
+     * 指定预约信息对应的所有反馈
+     *
+     * @param [int] $info_id
+     * @return collection
+     */
     public function infoFeedbacks($info_id){
         return $this->where('info_id',$info_id)
                     ->with('user')

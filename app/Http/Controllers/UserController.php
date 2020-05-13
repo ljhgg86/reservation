@@ -69,6 +69,12 @@ class UserController extends Controller
         return response()->responseUtil($user->delete());
     }
 
+    /**
+     * 模糊搜索手机号码或者姓名
+     *
+     * @param Request $request
+     * @return void
+     */
     public function searchUser(Request $request){
         return response()->responseUtil($this->user->searchUsers($request->input('searchContent')));
     }

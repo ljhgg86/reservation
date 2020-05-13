@@ -76,6 +76,12 @@ class OrderfeedbackController extends Controller
         return response()->responseUtil($orderfeedback->delete());
     }
 
+    /**
+     * 指定预约信息对应的所有反馈
+     *
+     * @param [int] $info_id
+     * @return void
+     */
     public function infoFeedbacks($info_id){
         return response()->responseUtil($this->orderfeedback->infoFeedbacks($info_id));
     }

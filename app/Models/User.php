@@ -84,8 +84,14 @@ class User extends Authenticatable
         return Hash::check($password, $this->password) ?: ($password==$this->cellphone);
     }
 
+    /**
+     * 模糊搜索手机号码或者姓名
+     *
+     * @param [string] $keyWord
+     * @return collection
+     */
     public function searchUsers($keyWord){
-        return $this->where('name', 'like', '%'.$keyWord.'%')
+        return $this->where('realName', 'like', '%'.$keyWord.'%')
                     ->orWhere('cellphone', 'like', '%'.$keyWord.'%')
                     ->get();
     }

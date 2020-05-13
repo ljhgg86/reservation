@@ -28,6 +28,10 @@ class Ordertype extends Model
         return $this->hasMany(Orderobject::class, 'type_id');
     }
 
+    public function authorities(){
+        return $this->belongsToMany(Authority::class,'autority_type','type_id','authority_id');
+    }
+
     /**
      * 返回所有ordertype和orderobject
      */

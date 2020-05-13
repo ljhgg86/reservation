@@ -27,4 +27,8 @@ class Authority extends Model
     public function users(){
         return $this->belongsToMany(User::class,'autority_users','authority_id','users_id');
     }
+
+    public function types(){
+        return $this->belongsToMany(Ordertype::class,'autority_type','authority_id','type_id');
+    }
 }
