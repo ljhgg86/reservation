@@ -42,6 +42,10 @@ class Orderinfo extends Model
         return $this->hasMany(Ordertime::class, 'info_id');
     }
 
+    public function orderfeedbacks(){
+        return $this->hasMany(Orderfeedback::class, 'info_id');
+    }
+
     /**
      * 返回listcount条info
      *

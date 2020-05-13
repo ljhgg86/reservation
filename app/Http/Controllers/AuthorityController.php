@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\AuthorityRequest;
+
+use App\Models\Authority;
 
 class AuthorityController extends Controller
 {
@@ -13,7 +16,7 @@ class AuthorityController extends Controller
      */
     public function index()
     {
-        //
+        return response()->responseUtil(Authority::all());
     }
 
     /**
@@ -22,9 +25,9 @@ class AuthorityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AuthorityRequest $request)
     {
-        //
+        return response()->responseUtil(Authority::create($request->all()));
     }
 
     /**
@@ -35,7 +38,7 @@ class AuthorityController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->responseUtil(Authority::where('id', $id)->with('users')->get());
     }
 
     /**
@@ -45,9 +48,9 @@ class AuthorityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AuthorityRequest $request, Authority $authority)
     {
-        //
+        return response()->responseUtil($authority->update($request->all()));
     }
 
     /**
@@ -56,8 +59,8 @@ class AuthorityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Authority $authority)
     {
-        //
+        return response()->responseUtil($authority->delete());
     }
 }

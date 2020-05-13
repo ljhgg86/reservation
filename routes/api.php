@@ -36,5 +36,10 @@ Route::prefix('v2')->group(function(){
     Route::patch('orderinfo/verify/{info_id}','OrderinfoController@verifyInfos')->middleware('auth:api');
     Route::apiResource('orderinfo','OrderinfoController')->middleware('auth:api');
 
+    Route::get('users/search','UserController@searchUser')->middleware('auth:api');
+    Route::apiResource('users','UserController')->middleware('auth:api');
+
+    Route::get('orderfeedback/infofeedbacks','OrderfeedbackController@infoFeedbacks')->middleware('auth:api');
+    Route::apiResource('orderfeedback','OrderfeedbackController')->middleware('auth:api');
 
 });

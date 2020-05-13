@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Authority extends Model
 {
+    use SoftDeletes;
     /**
      * 关联到模型的数据表
      *
@@ -19,7 +21,7 @@ class Authority extends Model
      * @var array
      */
     protected $fillable = [
-        'authorityName', 'authorityRemark', 'delFlag',
+        'authorityName', 'authorityRemark',
     ];
 
     public function users(){

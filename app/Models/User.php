@@ -7,10 +7,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -51,6 +53,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Authority::class,'autority_users','users_id','authority_id');
     }
 
+    public function orderfeedbacks(){
+        return $this->hasMany(Orderfeedback::class, 'user_id');
+    }
+
     public function findForPassport($username)
     {
         // $this->validatePhone($username) ?
@@ -76,5 +82,11 @@ class User extends Authenticatable
     public function validateForPassportPasswordGrant($password)
     {
         return Hash::check($password, $this->password) ?: ($password==$this->cellphone);
+    }
+
+    public function searchUsers($keyWord){
+        return $this->where('name', 'like', '%'.$keyWord.'%')
+                    ->orWhere('cellphone', 'like', '%'.$keyWord.'%')
+                    ->get();
     }
 }

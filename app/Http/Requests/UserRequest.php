@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class OrdertypeRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,10 +30,10 @@ class OrdertypeRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'typeName' => ['required',
+                    'name' => ['required',
                             'max:50',
                             'min:1',
-                            Rule::unique('ordertype')->where(function($query){
+                            Rule::unique('users')->where(function($query){
                                 $query->where('deleted_at',NULL);
                             })
                         ]
@@ -44,9 +44,9 @@ class OrdertypeRequest extends FormRequest
             case 'PATCH':
             {
                 return [
-                    'typeName' => ['max:50',
+                    'name' => ['max:50',
                             'min:1',
-                            Rule::unique('ordertype')->where(function($query){
+                            Rule::unique('users')->where(function($query){
                                 $query->where('deleted_at',NULL);
                             })
                         ]
@@ -59,17 +59,8 @@ class OrdertypeRequest extends FormRequest
                 return [];
             };
         }
-        // return [
-        //     'typeName' => ['required',
-        //                     'max:50',
-        //                     Rule::unique('ordertype')->where(function($query){
-        //                         $query->where('delFlag',0);
-        //                     })
-        //                 ]
-        // ];
     }
-
-    /**
+     /**
      * 获取被定义验证规则的错误消息
      *
      * @return array
@@ -77,10 +68,10 @@ class OrdertypeRequest extends FormRequest
      */
     public function messages(){
         return [
-            'typeName.required' => '类型名称不能为空',
-            'typeName.unique'  => '类型名称已被占用',
-            'typeName.max' => '类型名称长度太长',
-            'typeName.min' => '类型名称长度太短',
+            'name.required' => '名称不能为空',
+            'name.unique'  => '名称已被占用',
+            'name.max' => '名称长度太长',
+            'name.min' => '名称长度太短',
         ];
     }
 }
