@@ -10,6 +10,13 @@ use App\Models\Authority;
 class AuthorityController extends Controller
 {
     /**
+    *Create a new instance.
+    */
+    public function __construct()
+    {
+        $this->authority=new Authority();
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -62,5 +69,9 @@ class AuthorityController extends Controller
     public function destroy(Authority $authority)
     {
         return response()->responseUtil($authority->delete());
+    }
+
+    public function relatedInfos(){
+        return response()->responseUtil($this->authority->relatedInfos());
     }
 }
