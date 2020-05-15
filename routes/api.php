@@ -20,6 +20,7 @@ Route::prefix('v2')->group(function(){
     Route::post('login','PassportController@login');
 
     Route::apiResource('ordertype','OrdertypeController')->middleware('auth:api');
+
     Route::get('typeobjects/{type_id}','OrderobjectController@typeObjects')->middleware('auth:api');
     Route::get('objectdate/{object_id}/{date}','OrderobjectController@objectDateTimes')->middleware('auth:api');
     Route::get('objectmonth/{object_id}/{date}','OrderobjectController@objectMonth')->middleware('auth:api');
@@ -39,7 +40,7 @@ Route::prefix('v2')->group(function(){
     Route::get('users/search','UserController@searchUser')->middleware('auth:api');
     Route::apiResource('users','UserController')->middleware('auth:api');
 
-    Route::get('orderfeedback/infofeedbacks','OrderfeedbackController@infoFeedbacks')->middleware('auth:api');
+    Route::get('orderfeedback/infofeedbacks/{info_id}','OrderfeedbackController@infoFeedbacks')->middleware('auth:api');
     Route::apiResource('orderfeedback','OrderfeedbackController')->middleware('auth:api');
 
     Route::get('authority/relatedInfos','AuthorityController@relatedInfos')->middleware('auth:api');
