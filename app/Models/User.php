@@ -88,10 +88,10 @@ class User extends Authenticatable
      * 模糊搜索手机号码或者姓名
      *
      * @param [string] $keyWord
-     * @return collection
+     * @return void
      */
     public function searchUsers($keyWord){
-        return $this->where('realName', 'like', '%'.$keyWord.'%')
+        return $this->orWhere('realName', 'like', '%'.$keyWord.'%')
                     ->orWhere('cellphone', 'like', '%'.$keyWord.'%')
                     ->get();
     }

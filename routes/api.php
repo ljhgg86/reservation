@@ -42,4 +42,9 @@ Route::prefix('v2')->group(function(){
     Route::get('orderfeedback/infofeedbacks','OrderfeedbackController@infoFeedbacks')->middleware('auth:api');
     Route::apiResource('orderfeedback','OrderfeedbackController')->middleware('auth:api');
 
+    Route::get('authority/relatedInfos','AuthorityController@relatedInfos')->middleware('auth:api');
+    Route::post('authority/addRelatedAuthority','AuthorityController@addRelatedAuthority')->middleware('auth:api');
+    Route::patch('authority/updateRelatedAuthority','AuthorityController@updateRelatedAuthority')->middleware('auth:api');
+    Route::delete('authority/deleteRelatedAuthority','AuthorityController@deleteRelatedAuthority')->middleware('auth:api');
+    Route::apiResource('authority','AuthorityController')->middleware('auth:api');
 });

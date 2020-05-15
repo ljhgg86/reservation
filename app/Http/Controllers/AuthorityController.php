@@ -68,10 +68,36 @@ class AuthorityController extends Controller
      */
     public function destroy(Authority $authority)
     {
+        $authority->users()->detach();
+        $authority->typeinfos()->detach();
         return response()->responseUtil($authority->delete());
     }
 
     public function relatedInfos(){
         return response()->responseUtil($this->authority->relatedInfos());
+    }
+
+    public function addRelatedAuthority(Request $request, $id){
+        $authority = Authority::find($id);
+        if($authority->users()->attach($request->input('user_id')) && $authority->typeinfos()->attach($request->input('info_id'))){
+            return response()->responseUtil(true);
+        }
+        return response()->responseUtil(false);
+    }
+
+    public function updateRelatedAuthority(Request $request, $id){
+        $authority = Authority::find($id);
+        if($authority->users()->sync($request->input('user_id')) && $authority->typeinfos()->sync($request->input('info_id'))){
+            return response()->responseUtil(true);
+        }
+        return response()->responseUtil(false);
+    }
+
+    public function deleteRelatedAuthority(Request $request, $id){
+        $authority = Authority::find($id);
+        if($authority->users()->detach($request->input('user_id')) && $authority->typeinfos()->detach($request->input('info_id'))){
+            return response()->responseUtil(true);
+        }
+        return response()->responseUtil(false);
     }
 }
