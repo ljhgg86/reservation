@@ -42,19 +42,23 @@ class User extends Authenticatable
     ];
 
     public function proposerorderinfos(){
-        return $this->hasMany(Orderinfo::class, 'porposer_id');
+        return $this->hasMany(Orderinfo::class, 'porposer_id')
+                    ->select('id', 'object_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id');
     }
 
     public function checkerorderinfos(){
-        return $this->hasMany(Orderinfo::class, 'checker_id');
+        return $this->hasMany(Orderinfo::class, 'checker_id')
+                    ->select('id','proposer_id', 'object_id', 'applyReason', 'applyTime', 'programName', 'applyStatus');
     }
 
     public function authorities(){
-        return $this->belongsToMany(Authority::class,'authority_users','users_id','authority_id');
+        return $this->belongsToMany(Authority::class,'authority_users','users_id','authority_id')
+                    ->select('id', 'authorityName', 'authorityRemark');
     }
 
     public function orderfeedbacks(){
-        return $this->hasMany(Orderfeedback::class, 'user_id');
+        return $this->hasMany(Orderfeedback::class, 'user_id')
+                    ->select('id', 'info_id', 'feedbackContent', 'feedbackTime');
     }
 
     public function findForPassport($username)

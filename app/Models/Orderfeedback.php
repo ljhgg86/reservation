@@ -25,11 +25,13 @@ class Orderfeedback extends Model
     ];
 
     public function orderinfo(){
-        return $this->belongsTo(Orderinfo::class,'info_id');
+        return $this->belongsTo(Orderinfo::class,'info_id')
+                    ->select('proposer_id', 'object_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id');
     }
 
     public function user(){
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class,'user_id')
+                    ->select('name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email');
     }
 
     /**

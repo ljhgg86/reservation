@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use DB;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -25,11 +27,13 @@ class Authority extends Model
     ];
 
     public function users(){
-        return $this->belongsToMany(User::class,'authority_users','authority_id','users_id');
+        return $this->belongsToMany(User::class,'authority_users','authority_id','users_id')
+                    ->select('name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email');
     }
 
     public function types(){
-        return $this->belongsToMany(Ordertype::class,'authority_type','authority_id','type_id');
+        return $this->belongsToMany(Ordertype::class,'authority_type','authority_id','type_id')
+                    ->select('typeName', 'typeIcon', 'typeRemark');
     }
 
     /**

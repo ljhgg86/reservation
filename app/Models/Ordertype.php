@@ -25,11 +25,13 @@ class Ordertype extends Model
     ];
 
     public function orderobjects(){
-        return $this->hasMany(Orderobject::class, 'type_id');
+        return $this->hasMany(Orderobject::class, 'type_id')
+                    ->select('id', 'objectName', 'objectIcon', 'objectRemark');
     }
 
     public function authorities(){
-        return $this->belongsToMany(Authority::class,'autority_type','type_id','authority_id');
+        return $this->belongsToMany(Authority::class,'autority_type','type_id','authority_id')
+                    ->select('authorityName', 'authorityRemark');
     }
 
     /**

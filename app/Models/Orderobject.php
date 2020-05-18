@@ -25,19 +25,23 @@ class Orderobject extends Model
     ];
 
     public function ordertype(){
-        return $this->belongsTo(Ordertype::class,'type_id');
+        return $this->belongsTo(Ordertype::class,'type_id')
+                    ->select('typeName', 'typeIcon', 'typeRemark');
     }
 
     public function ordertimerules(){
-        return $this->hasMany(Ordertimerule::class, 'object_id');
+        return $this->hasMany(Ordertimerule::class, 'object_id')
+                    ->select('id', 'assignDate', 'weedDate', 'beginTime', 'endTime');
     }
 
     public function orderinfos(){
-        return $this->hasMany(Orderinfo::class, 'object_id');
+        return $this->hasMany(Orderinfo::class, 'object_id')
+                    ->select('id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id');
     }
 
     public function ordertimes(){
-        return $this->hasMany(Ordertime::class, 'object_id');
+        return $this->hasMany(Ordertime::class, 'object_id')
+                    ->select('id', 'info_id', 'orderDate', 'beginTime', 'endTime');
     }
 
     /**

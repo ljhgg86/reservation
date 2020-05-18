@@ -25,7 +25,8 @@ class Ordertimerule extends Model
     ];
 
     public function orderobject(){
-        return $this->belongsTo(Orderobject::class,'object_id');
+        return $this->belongsTo(Orderobject::class,'object_id')
+                    ->select('type_id', 'objectName', 'objectIcon', 'objectRemark');
     }
 
     /**
