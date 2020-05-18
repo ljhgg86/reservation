@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->responseUtil(User::all(['name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone','regTime', 'email']));
+        return response()->responseUtil(User::all(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone','regTime', 'email']));
     }
 
     /**
