@@ -41,7 +41,7 @@ class Orderobject extends Model
 
     public function ordertimes(){
         return $this->hasMany(Ordertime::class, 'object_id')
-                    ->select('id', 'object_id', 'info_id', 'orderDate', 'beginTime', 'endTime');
+                    ->select('id', 'object_id', 'info_id', 'orderDate', 'beginTime', 'endTime', 'applyStatus');
     }
 
     /**
@@ -76,6 +76,7 @@ class Orderobject extends Model
         return $this->where('id',$object_id)
                     ->with(['ordertimerules','ordertimes'=>function($query) use($date) {
                         $query->where('orderDate',$date)
+                                ->where('applyStatus', '<>',2)
                                 ->with('orderinfo');
                     }])
                     ->first(['id', 'type_id', 'objectName', 'objectIcon', 'objectRemark']);
@@ -89,7 +90,8 @@ class Orderobject extends Model
         $m = date('m',strtotime($month));
         return $this->where('id',$object_id)
                     ->with(['ordertimerules','ordertimes'=>function($query) use($y,$m){
-                        $query->whereYear('orderDate',$y)
+                        $query->where('applyStatus', '<>',2)
+                                ->whereYear('orderDate',$y)
                                 ->whereMonth('orderDate',$m)
                                 ->with('orderinfo');
                     }])

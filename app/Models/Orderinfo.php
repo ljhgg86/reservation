@@ -43,7 +43,7 @@ class Orderinfo extends Model
 
     public function ordertimes(){
         return $this->hasMany(Ordertime::class, 'info_id')
-                    ->select('id', 'info_id', 'object_id', 'orderDate', 'beginTime', 'endTime');
+                    ->select('id', 'info_id', 'object_id', 'orderDate', 'beginTime', 'endTime', 'applyStatus');
     }
 
     public function orderfeedbacks(){
@@ -429,6 +429,7 @@ class Orderinfo extends Model
             $orderInfo->applyStatus = $verifyStatus;
             $orderInfo->checker_id = request()->user()->id;
             $orderInfo->save();
+            Ordertime::where('info_id', $id)->update(['applyStatus'=>$verifyStatus]);
             DB::commit();
             return $orderInfo;
         }catch(Exception $e){
