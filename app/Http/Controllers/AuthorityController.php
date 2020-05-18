@@ -78,26 +78,14 @@ class AuthorityController extends Controller
     }
 
     public function addRelatedAuthority(Request $request, $id){
-        $authority = Authority::find($id);
-        if($authority->users()->attach($request->input('user_id')) && $authority->typeinfos()->attach($request->input('info_id'))){
-            return response()->responseUtil(true);
-        }
-        return response()->responseUtil(false);
+        return response()->responseUtil($this->authority->addRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
     }
 
     public function updateRelatedAuthority(Request $request, $id){
-        $authority = Authority::find($id);
-        if($authority->users()->sync($request->input('user_id')) && $authority->typeinfos()->sync($request->input('info_id'))){
-            return response()->responseUtil(true);
-        }
-        return response()->responseUtil(false);
+        return response()->responseUtil($this->authority->updateRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
     }
 
     public function deleteRelatedAuthority(Request $request, $id){
-        $authority = Authority::find($id);
-        if($authority->users()->detach($request->input('user_id')) && $authority->typeinfos()->detach($request->input('info_id'))){
-            return response()->responseUtil(true);
-        }
-        return response()->responseUtil(false);
+        return response()->responseUtil($this->authority->deleteRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
     }
 }

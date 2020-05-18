@@ -44,8 +44,8 @@ Route::prefix('v2')->group(function(){
     Route::apiResource('orderfeedback','OrderfeedbackController')->middleware('auth:api');
 
     Route::get('authority/relatedInfos','AuthorityController@relatedInfos')->middleware('auth:api');
-    Route::post('authority/addRelatedAuthority','AuthorityController@addRelatedAuthority')->middleware('auth:api');
-    Route::patch('authority/updateRelatedAuthority','AuthorityController@updateRelatedAuthority')->middleware('auth:api');
-    Route::delete('authority/deleteRelatedAuthority','AuthorityController@deleteRelatedAuthority')->middleware('auth:api');
+    Route::post('authority/addRelatedAuthority/{id}','AuthorityController@addRelatedAuthority')->middleware('auth:api');
+    Route::patch('authority/updateRelatedAuthority{id}','AuthorityController@updateRelatedAuthority')->middleware('auth:api');
+    Route::delete('authority/deleteRelatedAuthority{id}','AuthorityController@deleteRelatedAuthority')->middleware('auth:api');
     Route::apiResource('authority','AuthorityController')->middleware('auth:api');
 });
