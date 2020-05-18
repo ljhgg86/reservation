@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function authorities(){
         return $this->belongsToMany(Authority::class,'authority_users','users_id','authority_id')
-                    ->select('id', 'authorityName', 'authorityRemark');
+                    ->select('authorityName', 'authorityRemark');
     }
 
     public function orderfeedbacks(){
