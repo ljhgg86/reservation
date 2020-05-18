@@ -31,7 +31,7 @@ class Orderobject extends Model
 
     public function ordertimerules(){
         return $this->hasMany(Ordertimerule::class, 'object_id')
-                    ->select('id', 'assignDate', 'weedDate', 'beginTime', 'endTime');
+                    ->select('id', 'assignDate', 'weekDate', 'beginTime', 'endTime');
     }
 
     public function orderinfos(){
@@ -49,7 +49,7 @@ class Orderobject extends Model
      */
     public function typesObjects(){
         return $this->with('ordertype')
-                    ->get();
+                    ->get(['id', 'type_id', 'objectName', 'objectIcon', 'objectRemark']);
     }
 
     /**
@@ -57,7 +57,7 @@ class Orderobject extends Model
      */
     public function typeObjects($type_id){
         return $this->where('type_id',$type_id)
-                    ->get();
+                    ->get(['id', 'type_id', 'objectName', 'objectIcon', 'objectRemark']);
     }
 
     /**
@@ -78,7 +78,7 @@ class Orderobject extends Model
                         $query->where('orderDate',$date)
                                 ->with('orderinfo');
                     }])
-                    ->first();
+                    ->first(['type_id', 'objectName', 'objectIcon', 'objectRemark']);
     }
 
     /**
@@ -93,6 +93,6 @@ class Orderobject extends Model
                                 ->whereMonth('orderDate',$m)
                                 ->with('orderinfo');
                     }])
-                    ->first();
+                    ->first(['type_id', 'objectName', 'objectIcon', 'objectRemark']);
     }
 }

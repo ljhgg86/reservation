@@ -42,7 +42,7 @@ class Authority extends Model
      * @return void
      */
     public function relatedInfos(){
-        return $this->with('users','types')->get();
+        return $this->with('users','types')->get(['id', 'authorityName', 'authorityRemark']);
     }
 
     /**

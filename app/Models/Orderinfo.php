@@ -66,7 +66,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get();
+                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -87,7 +87,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get();
+                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -107,7 +107,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get();
+                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -126,7 +126,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get();
+                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -148,7 +148,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get();
+                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -169,7 +169,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get();
+                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**

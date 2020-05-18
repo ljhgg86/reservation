@@ -26,7 +26,7 @@ class OrdertypeController extends Controller
     public function index()
     {
         //return $this->responseUtil->responseInfo(Ordertype::where('delFlag', 0)->get());
-        return response()->responseUtil(Ordertype::all());
+        return response()->responseUtil(Ordertype::all(['id', 'typeName', 'typeIcon', 'typeRemark']));
     }
 
     /**

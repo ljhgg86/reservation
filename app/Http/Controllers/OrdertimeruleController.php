@@ -49,7 +49,7 @@ class OrdertimeruleController extends Controller
      */
     public function show($id)
     {
-        return response()->responseUtil($this->ordertimerule->where('id',$id)->with('orderobject')->first());
+        return response()->responseUtil($this->ordertimerule->where('id',$id)->with('orderobject')->first(['assignDate', 'weedDate', 'beginTime', 'endTime']));
     }
 
     /**

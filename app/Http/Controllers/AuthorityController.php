@@ -23,7 +23,7 @@ class AuthorityController extends Controller
      */
     public function index()
     {
-        return response()->responseUtil(Authority::all());
+        return response()->responseUtil(Authority::all(['id', 'authorityName', 'authorityRemark']));
     }
 
     /**
@@ -45,7 +45,7 @@ class AuthorityController extends Controller
      */
     public function show($id)
     {
-        return response()->responseUtil(Authority::where('id', $id)->with('users')->get());
+        return response()->responseUtil(Authority::where('id', $id)->with('users')->get(['authorityName', 'authorityRemark']));
     }
 
     /**

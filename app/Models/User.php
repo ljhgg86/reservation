@@ -97,6 +97,6 @@ class User extends Authenticatable
     public function searchUsers($keyWord){
         return $this->orWhere('realName', 'like', '%'.$keyWord.'%')
                     ->orWhere('cellphone', 'like', '%'.$keyWord.'%')
-                    ->get();
+                    ->get(['name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']);
     }
 }

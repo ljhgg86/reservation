@@ -37,7 +37,7 @@ class Ordertimerule extends Model
      */
     public function objectTimerules($object_id){
         return $this->where('object_id',$object_id)
-                    ->get();
+                    ->get(['id', 'assignDate', 'weedDate', 'beginTime', 'endTime']);
     }
 
     // public function timeruleWithObject($id){
