@@ -61,7 +61,7 @@ class OrderinfoController extends Controller
      */
     public function show($id)
     {
-        return response()->responseUtil($this->orderinfo->where('id',$id)->with('proposer','checker','ordertimes','orderobject.ordertype')->first(['proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']));
+        return response()->responseUtil($this->orderinfo->where('id',$id)->with('proposer','checker','ordertimes','orderobject.ordertype')->first(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']));
     }
 
     /**

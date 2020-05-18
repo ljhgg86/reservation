@@ -60,7 +60,7 @@ class Orderinfo extends Model
      */
     public function getInfos($listCount, $minId){
         return $this->where('id','<',$minId)
-                    ->where('applyStatus', '<>', 2)
+                    ->where('applyStatus', '<', 2)
                     ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
                     },'orderobject.ordertype'])
@@ -81,7 +81,7 @@ class Orderinfo extends Model
         $objectIds = Orderobject::where('type_id',$type_id)->select('id')->get();
         return $this->whereIn('object_id', $objectIds)
                     ->where('id','<',$minId)
-                    ->where('applyStatus', '<>', 2)
+                    ->where('applyStatus', '<', 2)
                     ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
                     },'orderobject.ordertype'])
@@ -101,7 +101,7 @@ class Orderinfo extends Model
     public function objectInfos($object_id, $listCount, $minId){
         return $this->where('object_id', $object_id)
                     ->where('id','<',$minId)
-                    ->where('applyStatus', '<>', 2)
+                    ->where('applyStatus', '<', 2)
                     ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
                     },'orderobject.ordertype'])
