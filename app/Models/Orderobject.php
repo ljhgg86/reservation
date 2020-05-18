@@ -26,22 +26,22 @@ class Orderobject extends Model
 
     public function ordertype(){
         return $this->belongsTo(Ordertype::class,'type_id')
-                    ->select('typeName', 'typeIcon', 'typeRemark');
+                    ->select('id', 'typeName', 'typeIcon', 'typeRemark');
     }
 
     public function ordertimerules(){
         return $this->hasMany(Ordertimerule::class, 'object_id')
-                    ->select('id', 'assignDate', 'weekDate', 'beginTime', 'endTime');
+                    ->select('id', 'object_id', 'assignDate', 'weekDate', 'beginTime', 'endTime');
     }
 
     public function orderinfos(){
         return $this->hasMany(Orderinfo::class, 'object_id')
-                    ->select('id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id');
+                    ->select('id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id');
     }
 
     public function ordertimes(){
         return $this->hasMany(Ordertime::class, 'object_id')
-                    ->select('id', 'info_id', 'orderDate', 'beginTime', 'endTime');
+                    ->select('id', 'object_id', 'info_id', 'orderDate', 'beginTime', 'endTime');
     }
 
     /**
@@ -78,7 +78,7 @@ class Orderobject extends Model
                         $query->where('orderDate',$date)
                                 ->with('orderinfo');
                     }])
-                    ->first(['type_id', 'objectName', 'objectIcon', 'objectRemark']);
+                    ->first(['id', 'type_id', 'objectName', 'objectIcon', 'objectRemark']);
     }
 
     /**

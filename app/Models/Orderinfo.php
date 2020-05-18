@@ -28,27 +28,27 @@ class Orderinfo extends Model
 
     public function orderobject(){
         return $this->belongsTo(Orderobject::class,'object_id')
-                    ->select('type_id', 'objectName', 'objectIcon', 'objectRemark');
+                    ->select('id', 'type_id', 'objectName', 'objectIcon', 'objectRemark');
     }
 
     public function proposer(){
         return $this->belongsTo(User::class,'proposer_id')
-                    ->select('name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email');
+                    ->select('id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email');
     }
 
     public function checker(){
         return $this->belongsTo(User::class,'checker_id')
-                    ->select('name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email');
+                    ->select('id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email');
     }
 
     public function ordertimes(){
         return $this->hasMany(Ordertime::class, 'info_id')
-                    ->select('id', 'object_id', 'orderDate', 'beginTime', 'endTime');
+                    ->select('id', 'info_id', 'object_id', 'orderDate', 'beginTime', 'endTime');
     }
 
     public function orderfeedbacks(){
         return $this->hasMany(Orderfeedback::class, 'info_id')
-                    ->select('id', 'user_id', 'feedbackContent', 'feedbackTime');
+                    ->select('id', 'info_id', 'user_id', 'feedbackContent', 'feedbackTime');
     }
 
     /**

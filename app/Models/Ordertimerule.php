@@ -26,7 +26,7 @@ class Ordertimerule extends Model
 
     public function orderobject(){
         return $this->belongsTo(Orderobject::class,'object_id')
-                    ->select('type_id', 'objectName', 'objectIcon', 'objectRemark');
+                    ->select('id', 'type_id', 'objectName', 'objectIcon', 'objectRemark');
     }
 
     /**
@@ -37,7 +37,7 @@ class Ordertimerule extends Model
      */
     public function objectTimerules($object_id){
         return $this->where('object_id',$object_id)
-                    ->get(['id', 'assignDate', 'weedDate', 'beginTime', 'endTime']);
+                    ->get(['id', 'object_id', 'assignDate', 'weedDate', 'beginTime', 'endTime']);
     }
 
     // public function timeruleWithObject($id){

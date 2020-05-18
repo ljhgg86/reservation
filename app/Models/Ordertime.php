@@ -28,12 +28,12 @@ class Ordertime extends Model
 
     public function orderobject(){
         return $this->belongsTo(Orderobject::class,'object_id')
-                    ->select('type_id', 'objectName', 'objectIcon', 'objectRemark');
+                    ->select('id', 'type_id', 'objectName', 'objectIcon', 'objectRemark');
     }
 
     public function orderinfo(){
         return $this->belongsTo(Orderinfo::class,'info_id')
-                    ->select('proposer_id', 'object_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id');
+                    ->select('id', 'proposer_id', 'object_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id');
     }
 
     public function scopeTimesByDatetime($query){
