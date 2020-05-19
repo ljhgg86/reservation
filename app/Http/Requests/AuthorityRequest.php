@@ -43,11 +43,13 @@ class AuthorityRequest extends FormRequest
             case 'PUT':
             case 'PATCH':
             {
+                $id = $this->segment(4);
                 return [
                     'authorityName' => ['max:50',
                             'min:1',
-                            Rule::unique('authority')->where(function($query){
-                                $query->where('deleted_at',NULL);
+                            Rule::unique('authority')->where(function($query) use($id) {
+                                $query->where('deleted_at',NULL)
+                                        ->where('id', '!=', $id);
                             })
                         ]
                 ];

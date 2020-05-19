@@ -30,26 +30,35 @@ class UserRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'name' => ['required',
-                            'max:50',
-                            'min:1',
-                            Rule::unique('users')->where(function($query){
-                                $query->where('deleted_at',NULL);
-                            })
-                        ]
+                    'name' => [
+                        'required',
+                        'max:50',
+                        'min:1',
+                        Rule::unique('users')->where(function($query){
+                            $query->where('deleted_at',NULL);
+                        })
+                    ],
+                    'password' => [
+                        'required',
+                        'max:20',
+                        'min:6'
+                    ]
                 ];
             }
             // UPDATE
             case 'PUT':
             case 'PATCH':
             {
+                $id = $this->segment(4);
                 return [
-                    'name' => ['max:50',
-                            'min:1',
-                            Rule::unique('users')->where(function($query){
-                                $query->where('deleted_at',NULL);
-                            })
-                        ]
+                    'name' => [
+                        'max:50',
+                        'min:1',
+                        Rule::unique('users')->where(function($query) use($id) {
+                            $query->where('deleted_at',NULL)
+                                ->where('id', '!=', $id);
+                        })
+                    ]
                 ];
             }
             case 'GET':
@@ -72,6 +81,9 @@ class UserRequest extends FormRequest
             'name.unique'  => '名称已被占用',
             'name.max' => '名称长度太长',
             'name.min' => '名称长度太短',
+            'password.required' => '密码不能为空',
+            'password.max' => '密码长度太长',
+            'password.min' => '密码长度太短',
         ];
     }
 }

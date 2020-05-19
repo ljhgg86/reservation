@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 
 class UserController extends Controller
@@ -30,9 +31,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        return response()->responseUtil(User::create($request->all()));
+        $user = new User($request->all());
+        $user->password = bcrypt($request->input('password'));
+        return response()->responseUtil($user->save());
     }
 
     /**
@@ -53,9 +56,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        return response()->responseUtil($user->update($request->all()));
+        $user->fill($request->all());
+        if($request->has('password')){
+            $user->password = bcrypt($request->input('password'));
+        }
+        return response()->responseUtil($user->save());
     }
 
     /**
@@ -77,5 +84,9 @@ class UserController extends Controller
      */
     public function searchUser(Request $request){
         return response()->responseUtil($this->user->searchUsers($request->input('searchContent')));
+    }
+
+    public function userInfo(){
+        return response()->responseUtil(request()->user()->with('authorities')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
     }
 }
