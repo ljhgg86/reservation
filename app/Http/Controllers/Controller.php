@@ -11,7 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function authorize()
+    public function authorize($type_id = 0)
     {
         $owner=request()->user();
 

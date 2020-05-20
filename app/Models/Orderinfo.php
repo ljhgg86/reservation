@@ -28,7 +28,7 @@ class Orderinfo extends Model
 
     public function orderobject(){
         return $this->belongsTo(Orderobject::class,'object_id')
-                    ->select('id', 'type_id', 'objectName', 'objectIcon', 'objectRemark');
+                    ->select('orderobject.id', 'type_id', 'objectName', 'objectIcon', 'objectRemark');
     }
 
     public function proposer(){
@@ -66,7 +66,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
+                    ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -87,7 +87,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
+                    ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -107,7 +107,7 @@ class Orderinfo extends Model
                     },'orderobject.ordertype'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
+                    ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -123,10 +123,10 @@ class Orderinfo extends Model
                     ->where('id','<',$minId)
                     ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
-                    },'orderobject.ordertype'])
+                    },'orderobject.ordertype','orderfeedbacks'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
+                    ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -145,10 +145,10 @@ class Orderinfo extends Model
                     ->where('id','<',$minId)
                     ->withwith(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
-                    },'orderobject.ordertype'])
+                    },'orderobject.ordertype', 'orderfeedbacks'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
+                    ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**
@@ -166,10 +166,10 @@ class Orderinfo extends Model
                     ->where('id','<',$minId)
                     ->withwith(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
-                    },'orderobject.ordertype'])
+                    },'orderobject.ordertype', 'orderfeedbacks'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
-                    ->get(['id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
+                    ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
     }
 
     /**

@@ -57,8 +57,12 @@ class Authority extends Model
         $authority = $this->find($id);
         DB::beginTransaction();
         try{
-            $authority->users()->attach($user_id);
-            $authority->types()->attach($type_id);
+            if(count($user_id)){
+                $authority->users()->attach($user_id);
+            }
+            if(count($type_id)){
+                $authority->types()->attach($type_id);
+            }
             DB::commit();
             return true;
         }catch(Exception $e){
@@ -79,8 +83,12 @@ class Authority extends Model
         $authority = $this->find($id);
         DB::beginTransaction();
         try{
-            $authority->users()->sync($user_id);
-            $authority->types()->sync($type_id);
+            if(count($user_id)){
+                $authority->users()->sync($user_id);
+            }
+            if(count($type_id)){
+                $authority->types()->sync($type_id);
+            }
             DB::commit();
             return true;
         }catch(Exception $e){
@@ -101,8 +109,12 @@ class Authority extends Model
         $authority = $this->find($id);
         DB::beginTransaction();
         try{
-            $authority->users()->detach($user_id);
-            $authority->types()->detach($type_id);
+            if(count($user_id)){
+                $authority->users()->detach($user_id);
+            }
+            if(count($type_id)){
+                $authority->types()->detach($type_id);
+            }
             DB::commit();
             return true;
         }catch(Exception $e){

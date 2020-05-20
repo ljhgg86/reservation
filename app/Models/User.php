@@ -41,6 +41,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function is_super_admin(){
+        $userInfo = $this->with('authorities')->get();
+        return $userInfo->id == 1 &&$userInfo->authorities->contains('id', 1);
+    }
+
+    public function is_admin(){
+        $userInfo = $this->with('authorities')->get();
+        return $userInfo->authorities->contains('id', 1);
+    }
+
+    public function hasTypePower($type_id){
+        $userInfo = $this->with('authorities.types')->get();
+        return $userInfo->authorities->each(function($authority, $key) use($type_id) {
+            return $authority->types->contains('id', $type_id);
+        })->isNotEmpty();
+    }
+
     public function proposerorderinfos(){
         return $this->hasMany(Orderinfo::class, 'porposer_id')
                     ->select('id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id');
@@ -53,7 +70,7 @@ class User extends Authenticatable
 
     public function authorities(){
         return $this->belongsToMany(Authority::class,'authority_users','users_id','authority_id')
-                    ->select('authorityName', 'authorityRemark');
+                    ->select('authority.id', 'authorityName', 'authorityRemark');
     }
 
     public function orderfeedbacks(){

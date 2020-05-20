@@ -44,6 +44,6 @@ class Orderfeedback extends Model
         return $this->where('info_id',$info_id)
                     ->with('user')
                     ->orderBy('feedbackTime','asc')
-                    ->get(['id', 'user_id', 'feedbackContent', 'feedbackTime']);
+                    ->get(['id', 'user_id', 'info_id', 'feedbackContent', 'feedbackTime']);
     }
 }
