@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Utils\ResponseUtil;
 
 use App\Models\Orderinfo;
+use App\Models\Orderobject;
 
 class OrderinfoController extends Controller
 {
@@ -161,6 +162,9 @@ class OrderinfoController extends Controller
      * @return responseutil
      */
     public function verifyInfos(Request $request, $id){
+        $orderinfo = $this->orderinfo->find($id);
+        $orderobject = Orderobject::find($orderinfo->object_id);
+        $this->authorize($orderobject->type_id);
         return response()->responseUtil($this->orderinfo->verifyInfo($request->input('applyStatus'),$id));
     }
 }

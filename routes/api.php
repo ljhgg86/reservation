@@ -39,6 +39,7 @@ Route::prefix('v2')->group(function(){
 
     Route::get('users/search','UserController@searchUser')->middleware('auth:api');
     Route::get('users/info','UserController@userInfo')->middleware('auth:api');
+    Route::get('users/hastypepower/{type_id}','UserController@hasTypePower')->middleware('auth:api');
     Route::apiResource('users','UserController')->middleware('auth:api');
 
     Route::get('orderfeedback/infofeedbacks/{info_id}','OrderfeedbackController@infoFeedbacks')->middleware('auth:api');

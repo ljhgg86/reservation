@@ -42,17 +42,17 @@ class User extends Authenticatable
     ];
 
     public function is_super_admin(){
-        $userInfo = $this->with('authorities')->get();
+        $userInfo = $this->with('authorities')->first();
         return $userInfo->id == 1 &&$userInfo->authorities->contains('id', 1);
     }
 
     public function is_admin(){
-        $userInfo = $this->with('authorities')->get();
+        $userInfo = $this->with('authorities')->first();
         return $userInfo->authorities->contains('id', 1);
     }
 
     public function hasTypePower($type_id){
-        $userInfo = $this->with('authorities.types')->get();
+        $userInfo = $this->with('authorities.types')->first();
         return $userInfo->authorities->each(function($authority, $key) use($type_id) {
             return $authority->types->contains('id', $type_id);
         })->isNotEmpty();

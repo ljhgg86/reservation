@@ -14,15 +14,15 @@ class Controller extends BaseController
     public function authorize($type_id = 0)
     {
         $owner=request()->user();
-
-        if (!$owner->is_admin()) {
-            return response()->json([
-                'status' => false,
-                'data'=>[
-                    'successflag' => false
-                ],
-                'message' => '没有权限执行此操作',
-            ])->setStatusCode(401);
+        if($owner->is_super_admin() || $owner->is_admin() || $owner->hasTypePower($type_id)){
+            return true;
         }
+        return response()->json([
+            'status' => false,
+            'data'=>[
+                'successflag' => false
+            ],
+            'message' => '没有权限执行此操作',
+        ])->setStatusCode(401);
     }
 }

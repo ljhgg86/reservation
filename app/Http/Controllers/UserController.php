@@ -86,7 +86,17 @@ class UserController extends Controller
         return response()->responseUtil($this->user->searchUsers($request->input('searchContent')));
     }
 
+    /**
+     * 返回请求用户信息和关联的权限信息
+     *
+     * @return void
+     */
     public function userInfo(){
         return response()->responseUtil(request()->user()->with('authorities')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
     }
+
+    public function hasTypePower($type_id){
+        return response()->responseUtil(request()->user()->hasTypePower($type_id));
+    }
+
 }

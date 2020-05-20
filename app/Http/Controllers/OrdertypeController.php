@@ -47,6 +47,7 @@ class OrdertypeController extends Controller
      */
     public function store(OrdertypeRequest $request)
     {
+        $this->authorize();
         return response()->responseUtil(Ordertype::create($request->all()));
     }
 
@@ -81,6 +82,7 @@ class OrdertypeController extends Controller
      */
     public function update(OrdertypeRequest $request, Ordertype $ordertype)
     {
+        $this->authorize($ordertype->id);
         return response()->responseUtil($ordertype->update($request->all()));
     }
 
@@ -92,6 +94,7 @@ class OrdertypeController extends Controller
      */
     public function destroy(Ordertype $ordertype)
     {
+        $this->authorize($ordertype->id);
         return response()->responseUtil($ordertype->delete());
     }
 }

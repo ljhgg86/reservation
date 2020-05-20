@@ -437,4 +437,20 @@ class Orderinfo extends Model
             return false;
         }
     }
+
+    /**
+     * 删除
+     */
+    public function delInfo($orderInfo){
+        DB::beginTransaction();
+        try{
+            $orderInfo->ordertimes()->delete();
+            $orderInfo->delete();
+            DB::commit();
+            return true;
+        }catch(Exception $e){
+            DB::rollBack();
+            return false;
+        }
+    }
 }

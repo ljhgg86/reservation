@@ -7,6 +7,7 @@ use App\Http\Requests\OrdertimeruleRequest;
 use App\Utils\ResponseUtil;
 
 use App\Models\Ordertimerule;
+use App\Models\Orderobject;
 
 class OrdertimeruleController extends Controller
 {
@@ -38,6 +39,8 @@ class OrdertimeruleController extends Controller
      */
     public function store(OrdertimeruleRequest $request)
     {
+        $orderobject = Orderobject::find($request->input('object_id'));
+        $this->authorize($orderobject->type_id);
         return response()->responseUtil(Ordertimerule::create($request->all()));
     }
 
@@ -61,6 +64,8 @@ class OrdertimeruleController extends Controller
      */
     public function update(OrdertimeruleRequest $request, Ordertimerule $ordertimerule)
     {
+        $orderobject = Orderobject::find($ordertimerule->object_id);
+        $this->authorize($orderobject->type_id);
         return response()->responseUtil($ordertimerule->update($request->all()));
     }
 
@@ -72,6 +77,8 @@ class OrdertimeruleController extends Controller
      */
     public function destroy(Ordertimerule $ordertimerule)
     {
+        $orderobject = Orderobject::find($ordertimerule->object_id);
+        $this->authorize($orderobject->type_id);
         return response()->responseUtil($ordertimerule->delete());
     }
 

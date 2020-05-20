@@ -50,6 +50,7 @@ class OrderobjectController extends Controller
      */
     public function store(OrderobjectRequest $request)
     {
+        $this->authorize($request->input('type_id'));
         return response()->responseUtil(Orderobject::create($request->all()));
     }
 
@@ -84,6 +85,7 @@ class OrderobjectController extends Controller
      */
     public function update(OrderobjectRequest $request, Orderobject $orderobject)
     {
+        $this->authorize($orderobject->type_id);
         return response()->responseUtil($orderobject->update($request->all()));
     }
 
@@ -95,6 +97,7 @@ class OrderobjectController extends Controller
      */
     public function destroy(Orderobject $orderobject)
     {
+        $this->authorize($orderobject->type_id);
         return response()->responseUtil($orderobject->delete());
     }
 
