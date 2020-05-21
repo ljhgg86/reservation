@@ -62,10 +62,17 @@ class OrderfeedbackController extends Controller
      */
     public function update(Request $request, Orderfeedback $orderfeedback)
     {
-        $orderfeedback->info_id = $request->input('info_id');
-        $orderfeedback->feedbackContent = $request->input('feedbackContent');
-        $orderfeedback->user_id = request()->user()->id;
-        return response()->responseUtil($orderfeedback->save());
+        if($orderfeedback->user_id == request()->user()->id){
+            $orderfeedback->info_id = $request->input('info_id');
+            $orderfeedback->feedbackContent = $request->input('feedbackContent');
+            return response()->responseUtil($orderfeedback->save());
+        }
+        return response()->json([
+            'status'=>false,
+            'data'=>'',
+            'message'=>'没有权限更新内容.'
+        ],400);
+
     }
 
     /**

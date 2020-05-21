@@ -34,6 +34,7 @@ class AuthorityController extends Controller
      */
     public function store(AuthorityRequest $request)
     {
+        $this->authorize();
         return response()->responseUtil(Authority::create($request->all()));
     }
 
@@ -57,6 +58,7 @@ class AuthorityController extends Controller
      */
     public function update(AuthorityRequest $request, Authority $authority)
     {
+        $this->authorize();
         return response()->responseUtil($authority->update($request->all()));
     }
 
@@ -68,6 +70,7 @@ class AuthorityController extends Controller
      */
     public function destroy(Authority $authority)
     {
+        $this->authorize();
         $authority->users()->detach();
         $authority->typeinfos()->detach();
         return response()->responseUtil($authority->delete());
@@ -78,14 +81,17 @@ class AuthorityController extends Controller
     }
 
     public function addRelatedAuthority(Request $request, $id){
+        $this->authorize();
         return response()->responseUtil($this->authority->addRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
     }
 
     public function updateRelatedAuthority(Request $request, $id){
+        $this->authorize();
         return response()->responseUtil($this->authority->updateRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
     }
 
     public function deleteRelatedAuthority(Request $request, $id){
+        $this->authorize();
         return response()->responseUtil($this->authority->deleteRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
     }
 }

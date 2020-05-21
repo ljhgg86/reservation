@@ -26,7 +26,7 @@ Route::prefix('v2')->group(function(){
     Route::get('objectmonth/{object_id}/{date}','OrderobjectController@objectMonth')->middleware('auth:api');
     Route::apiResource('orderobject','OrderobjectController')->middleware('auth:api');
 
-    Route::get('objecttimerules','OrdertimeruleController@objectTimerules')->middleware('auth:api');
+    Route::get('objecttimerules/{object_id}','OrdertimeruleController@objectTimerules')->middleware('auth:api');
     Route::apiResource('ordertimerule','OrdertimeruleController',['except' => ['index']])->middleware('auth:api');
 
     Route::get('typeinfos/{type_id}','OrderinfoController@typeInfos')->middleware('auth:api');

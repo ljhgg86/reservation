@@ -21,7 +21,7 @@ class Orderobject extends Model
      * @var array
      */
     protected $fillable = [
-        'type_id', 'objectName', 'objectIcon', 'objectRemark', 'delFlag',
+        'type_id', 'objectName', 'objectIcon', 'objectRemark',
     ];
 
     public function ordertype(){

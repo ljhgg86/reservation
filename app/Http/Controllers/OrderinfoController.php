@@ -74,7 +74,15 @@ class OrderinfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rst = $this->orderinfo->updateInfo($request->all(), $id);
+        $orderinfo = $this->orderinfo->find($id);
+        if($orderinfo->proposer_id != request()->user()->id){
+            return response()->json([
+                'status'=>false,
+                'data'=>'',
+                'message'=>'无权限修改内容。'
+            ]);
+        }
+        $rst = $this->orderinfo->updateInfo($request->except('applyStatus'), $id);
         if(!$rst['status']){
             return response()->json([
                 'status'=>false,
@@ -97,7 +105,15 @@ class OrderinfoController extends Controller
      */
     public function destroy(Orderinfo $orderinfo)
     {
-        return response()->responseUtil($orderinfo->delete());
+        $requester = request()->user();
+        if(($orderinfo->proposer_id != $requester->id) && !$requester->is_admin()){
+            return response()->json([
+                'status'=>false,
+                'data'=>'',
+                'message'=>'无权限删除内容。'
+            ]);
+        }
+        return response()->responseUtil($orderinfo->delInfo());
     }
 
     /**

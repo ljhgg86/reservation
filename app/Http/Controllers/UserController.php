@@ -33,6 +33,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        $this->authorize();
         $user = new User($request->all());
         $user->password = bcrypt($request->input('password'));
         return response()->responseUtil($user->save());
@@ -58,6 +59,14 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
+        $requester = request()->user();
+        if(($user->id != $requester->id) && !$requester->is_admin()){
+            return response()->json([
+                'status'=>false,
+                'data'=>'',
+                'message'=>'无权限操作。'
+            ]);
+        }
         $user->fill($request->all());
         if($request->has('password')){
             $user->password = bcrypt($request->input('password'));
@@ -73,6 +82,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize();
         return response()->responseUtil($user->delete());
     }
 

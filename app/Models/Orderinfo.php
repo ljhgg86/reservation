@@ -441,11 +441,11 @@ class Orderinfo extends Model
     /**
      * 删除
      */
-    public function delInfo($orderInfo){
+    public function delInfo(){
         DB::beginTransaction();
         try{
-            $orderInfo->ordertimes()->delete();
-            $orderInfo->delete();
+            $this->ordertimes()->delete();
+            $this->delete();
             DB::commit();
             return true;
         }catch(Exception $e){
