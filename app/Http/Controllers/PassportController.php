@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
+use App\Models\User;
+
 class PassportController extends Controller
 {
 
@@ -18,6 +20,7 @@ class PassportController extends Controller
     public function __construct()
     {
         $this->http = new Client();
+        $this->user = new User();
     }
     public function login(Request $request)
     {
@@ -58,6 +61,9 @@ class PassportController extends Controller
         }
 
         $token = json_decode((string)$response->getBody(), true);
+        $user = $this->user->where('name',$formParams['username'])
+                            ->with('authorities')
+                            ->first(['id','name','realName','openId','nickName','avatarUrl','cellphone','officephone','regTime','email']);
 
         return response()->json([
             'status'=>true,
@@ -65,6 +71,7 @@ class PassportController extends Controller
                 'access_token' => $token['access_token'],
                 'auth_id'    => md5($token['refresh_token']),
                 'expires_in' => $token['expires_in'],
+                'user' => $user,
             ],
             'message'=>'成功',
 
