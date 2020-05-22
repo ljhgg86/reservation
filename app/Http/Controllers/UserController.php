@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return response()->responseUtil(User::where('id', $id)->with('authorities')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
+        return response()->responseUtil(User::where('id', $id)->with('authorities.types')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
     }
 
     /**
