@@ -102,7 +102,7 @@ class UserController extends Controller
      * @return void
      */
     public function userInfo(){
-        return response()->responseUtil(request()->user()->with('authorities')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
+        return response()->responseUtil(request()->user()->with('authorities.types')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
     }
 
     public function hasTypePower($type_id){
