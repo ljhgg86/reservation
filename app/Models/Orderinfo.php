@@ -91,6 +91,27 @@ class Orderinfo extends Model
     }
 
     /**
+     * 返回指定几个ordertype的listcount条info
+     *
+     * @param [array] $typeIds
+     * @param [int] $listCount
+     * @param [int] $minId
+     * @return collection
+     */
+    public function typesInfos($typeIds, $listCount, $minId){
+        $objectIds = Orderobject::whereIn('type_id',$typeIds)->select('id')->get();
+        return $this->whereIn('object_id', $objectIds)
+                    ->where('id','<',$minId)
+                    ->where('applyStatus', '<', 2)
+                    ->with(['proposer','checker','ordertimes'=>function($query){
+                        $query->timesByDatetime();
+                    },'orderobject.ordertype'])
+                    ->orderBy('id','DESC')
+                    ->take($listCount)
+                    ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
+    }
+
+    /**
      * 返回指定orderobject的listcount条info
      *
      * @param [int] $object_id

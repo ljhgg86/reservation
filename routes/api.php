@@ -29,6 +29,7 @@ Route::prefix('v2')->group(function(){
     Route::get('objecttimerules/{object_id}','OrdertimeruleController@objectTimerules')->middleware('auth:api');
     Route::apiResource('ordertimerule','OrdertimeruleController',['except' => ['index']])->middleware('auth:api');
 
+    Route::get('typesinfos','OrderinfoController@typesInfos')->middleware('auth:api');
     Route::get('typeinfos/{type_id}','OrderinfoController@typeInfos')->middleware('auth:api');
     Route::get('objectinfos/{object_id}','OrderinfoController@objectInfos')->middleware('auth:api');
     Route::get('userinfos','OrderinfoController@userInfos')->middleware('auth:api');

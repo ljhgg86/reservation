@@ -127,6 +127,16 @@ class OrderinfoController extends Controller
         return response()->responseUtil($this->orderinfo->typeInfos($type_id,$request->input('listCount'),$request->input('minId')));
     }
 
+     /**
+     * 返回指定几个type关联的所有orderinfo
+     *
+     * @param Request $request
+     * @return responseutil
+     */
+    public function typesInfos(Request $request){
+        return response()->responseUtil($this->orderinfo->typesInfos($request->input('typeIds'),$request->input('listCount'),$request->input('minId')));
+    }
+
     /**
      * 返回object关联的所有orderinfo
      *
