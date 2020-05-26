@@ -99,6 +99,7 @@ class Orderinfo extends Model
      * @return collection
      */
     public function typesInfos($typeIds, $listCount, $minId){
+        $typeIds = json_decode($typeIds,true);
         $objectIds = Orderobject::whereIn('type_id',$typeIds)->select('id')->get();
         return $this->whereIn('object_id', $objectIds)
                     ->where('id','<',$minId)
