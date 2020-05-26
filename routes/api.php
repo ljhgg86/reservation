@@ -51,4 +51,6 @@ Route::prefix('v2')->group(function(){
     Route::patch('authority/updateRelatedAuthority/{id}','AuthorityController@updateRelatedAuthority')->middleware('auth:api');
     Route::delete('authority/deleteRelatedAuthority/{id}','AuthorityController@deleteRelatedAuthority')->middleware('auth:api');
     Route::apiResource('authority','AuthorityController')->middleware('auth:api');
+
+    Route::post('uploadfile','uploadController@uploadFile')->middleware('auth:api');
 });
