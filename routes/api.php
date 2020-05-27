@@ -36,6 +36,7 @@ Route::prefix('v2')->group(function(){
     Route::get('usertypeinfos/{type_id}','OrderinfoController@userTypeInfos')->middleware('auth:api');
     Route::get('userobjectinfos/{object_id}','OrderinfoController@userObjectInfos')->middleware('auth:api');
     Route::patch('orderinfo/verify/{info_id}','OrderinfoController@verifyInfos')->middleware('auth:api');
+    Route::post('orderinfo/verify/{info_id}','OrderinfoController@verifyInfos')->middleware('auth:api');
     Route::apiResource('orderinfo','OrderinfoController')->middleware('auth:api');
 
     Route::get('users/search','UserController@searchUser')->middleware('auth:api');
