@@ -60,10 +60,9 @@ class Orderinfo extends Model
      */
     public function getInfos($listCount, $minId){
         return $this->where('id','<',$minId)
-                    ->where('applyStatus', '<', 2)
                     ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
-                    },'orderobject.ordertype'])
+                    },'orderobject.ordertype','orderfeedbacks'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
                     ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
@@ -81,10 +80,9 @@ class Orderinfo extends Model
         $objectIds = Orderobject::where('type_id',$type_id)->select('id')->get();
         return $this->whereIn('object_id', $objectIds)
                     ->where('id','<',$minId)
-                    ->where('applyStatus', '<', 2)
                     ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
-                    },'orderobject.ordertype'])
+                    },'orderobject.ordertype','orderfeedbacks'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
                     ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
@@ -103,10 +101,9 @@ class Orderinfo extends Model
         $objectIds = Orderobject::whereIn('type_id',$typeIds)->select('id')->get();
         return $this->whereIn('object_id', $objectIds)
                     ->where('id','<',$minId)
-                    ->where('applyStatus', '<', 2)
                     ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
-                    },'orderobject.ordertype'])
+                    },'orderobject.ordertype','orderfeedbacks'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
                     ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
@@ -123,10 +120,9 @@ class Orderinfo extends Model
     public function objectInfos($object_id, $listCount, $minId){
         return $this->where('object_id', $object_id)
                     ->where('id','<',$minId)
-                    ->where('applyStatus', '<', 2)
                     ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
-                    },'orderobject.ordertype'])
+                    },'orderobject.ordertype','orderfeedbacks'])
                     ->orderBy('id','DESC')
                     ->take($listCount)
                     ->get(['id', 'object_id', 'proposer_id', 'applyReason', 'applyTime', 'programName', 'applyStatus', 'checker_id']);
@@ -453,7 +449,7 @@ class Orderinfo extends Model
             $orderInfo->save();
             Ordertime::where('info_id', $id)->update(['applyStatus'=>$verifyStatus]);
             DB::commit();
-            return $orderInfo;
+            return $orderInfo->with('checker')->first();
         }catch(Exception $e){
             DB::rollBack();
             return false;
