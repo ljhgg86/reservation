@@ -62,7 +62,7 @@ class PassportController extends Controller
 
         $token = json_decode((string)$response->getBody(), true);
         $user = $this->user->where('name',$formParams['username'])
-                            ->with('authorities')
+                            ->with('authorities.types')
                             ->first(['id','name','realName','openId','nickName','avatarUrl','cellphone','officephone','regTime','email']);
 
         return response()->json([

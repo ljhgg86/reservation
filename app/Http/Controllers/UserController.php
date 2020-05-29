@@ -105,6 +105,45 @@ class UserController extends Controller
         return response()->responseUtil(request()->user()->with('authorities.types')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
     }
 
+    /**
+     * 添加权限
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
+    public function addAuthority(Request $request,$user_id){
+        $this->authorize();
+        //dd($user_id);
+        $user = User::find($user_id);
+        if(count($request->input('authority_ids'))){
+            $user->authorities()->attach($request->input('authority_ids'));
+        }
+        return response()->responseUtil(true);
+    }
+
+    /**
+     * 更新权限
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
+    public function updateAuthority(Request $request,$user_id){
+        $this->authorize();
+        $user = User::find($user_id);
+        if(count($request->input('authority_ids'))){
+            $user->authorities()->sync($request->input('authority_ids'));
+        }
+        return response()->responseUtil(true);
+    }
+
+    /**
+     * 判断用户是否有管理某个类型的权限
+     *
+     * @param [int] $type_id
+     * @return boolean
+     */
     public function hasTypePower($type_id){
         return response()->responseUtil(request()->user()->hasTypePower($type_id));
     }

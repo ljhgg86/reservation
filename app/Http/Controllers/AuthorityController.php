@@ -35,7 +35,8 @@ class AuthorityController extends Controller
     public function store(AuthorityRequest $request)
     {
         $this->authorize();
-        return response()->responseUtil(Authority::create($request->all()));
+        // return response()->responseUtil(Authority::create($request->all()));
+        return response()->responseUtil($this->authority->store($request->all()));
     }
 
     /**
@@ -59,7 +60,8 @@ class AuthorityController extends Controller
     public function update(AuthorityRequest $request, Authority $authority)
     {
         $this->authorize();
-        return response()->responseUtil($authority->update($request->all()));
+        // return response()->responseUtil($authority->update($request->all()));
+        return response()->responseUtil($this->authority->updateAuthority($request->all(), $authority));
     }
 
     /**
@@ -80,18 +82,18 @@ class AuthorityController extends Controller
         return response()->responseUtil($this->authority->relatedInfos());
     }
 
-    public function addRelatedAuthority(Request $request, $id){
-        $this->authorize();
-        return response()->responseUtil($this->authority->addRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
-    }
+    // public function addRelatedAuthority(Request $request, $id){
+    //     $this->authorize();
+    //     return response()->responseUtil($this->authority->addRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
+    // }
 
-    public function updateRelatedAuthority(Request $request, $id){
-        $this->authorize();
-        return response()->responseUtil($this->authority->updateRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
-    }
+    // public function updateRelatedAuthority(Request $request, $id){
+    //     $this->authorize();
+    //     return response()->responseUtil($this->authority->updateRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
+    // }
 
-    public function deleteRelatedAuthority(Request $request, $id){
-        $this->authorize();
-        return response()->responseUtil($this->authority->deleteRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
-    }
+    // public function deleteRelatedAuthority(Request $request, $id){
+    //     $this->authorize();
+    //     return response()->responseUtil($this->authority->deleteRelatedAuthority($id, $request->input('user_id'), $request->input('type_id')));
+    // }
 }
