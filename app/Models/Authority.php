@@ -44,7 +44,7 @@ class Authority extends Model
                 $authority->types()->attach($requestInfo['type_ids']);
             }
             DB::commit();
-            return true;
+            return $authority->with('types')->get();
         }catch(Exception $e){
             DB::rollBack();
             return false;
@@ -60,7 +60,7 @@ class Authority extends Model
                 $authority->types()->sync($requestInfo['type_ids']);
             }
             DB::commit();
-            return true;
+            return $authority->with('types')->get();
         }catch(Exception $e){
             DB::rollBack();
             return false;

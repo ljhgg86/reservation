@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
 use App\Models\User;
+use DB;
 
 class PassportController extends Controller
 {
@@ -76,5 +77,27 @@ class PassportController extends Controller
             'message'=>'成功',
 
         ], 200)->cookie('refreshToken', $token['refresh_token'], 21600, null, null, false, true);
+    }
+
+    public function logout(){
+        $user = auth()->guard('api')->user();
+        if(!is_null($user)){
+            $accessToken = $user->token();
+            DB::table('oauth_refresh_tokens')
+                ->where('access_token_id', $accessToken->id)
+                ->update([
+                    'revoked' => true,
+                ]);
+
+            app('cookie')->queue(app('cookie')->forget('refreshToken'));
+
+            $accessToken->revoke();
+
+            return response()->json([
+                'status'=>true,
+                'data'=>[],
+                'message'=>'退出登录成功',
+            ], 204);
+        }
     }
 }
