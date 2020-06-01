@@ -23,7 +23,7 @@ class AuthorityController extends Controller
      */
     public function index()
     {
-        return response()->responseUtil(Authority::all(['id', 'authorityName', 'authorityRemark']));
+        return response()->responseUtil(Authority::with('types')->get(['id', 'authorityName', 'authorityRemark']));
     }
 
     /**
