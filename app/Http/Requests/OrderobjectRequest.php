@@ -45,13 +45,15 @@ class OrderobjectRequest extends FormRequest
             case 'PUT':
             case 'PATCH':
             {
+                $id = $this->segment(4);
                 return [
                     'type_id' => 'required',
                     'objectName' => ['max:50',
                                     'min:1',
-                                    Rule::unique('orderobject')->where(function($query){
+                                    Rule::unique('orderobject')->where(function($query) use($id) {
                                         $query->where('deleted_at',NULL)
-                                                ->where('type_id',request('type_id'));
+                                                ->where('type_id',request('type_id'))
+                                                ->where('id', '!=', $id);
                                     })
                                 ]
                 ];
