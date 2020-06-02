@@ -59,6 +59,13 @@ class AuthorityController extends Controller
      */
     public function update(AuthorityRequest $request, Authority $authority)
     {
+        if($authority->id == 1){
+            return response()->json([
+                'status'=>false,
+                'data'=>'',
+                'message'=>'无法修改！'
+            ],400);
+        }
         $this->authorize();
         // return response()->responseUtil($authority->update($request->all()));
         return response()->responseUtil($this->authority->updateAuthority($request->all(), $authority));
@@ -72,14 +79,22 @@ class AuthorityController extends Controller
      */
     public function destroy(Authority $authority)
     {
+        if($authority->id == 1){
+            return response()->json([
+                'status'=>false,
+                'data'=>'',
+                'message'=>'无法删除！'
+            ],400);
+        }
         $this->authorize();
         $authority->users()->detach();
-        $authority->typeinfos()->detach();
+        $authority->types()->detach();
         return response()->responseUtil($authority->delete());
     }
 
     public function relatedInfos(){
-        return response()->responseUtil($this->authority->relatedInfos());
+        //return response()->responseUtil($this->authority->relatedInfos());
+        return response()->responseUtil(Authority::with('users','types')->get(['id', 'authorityName', 'authorityRemark']));
     }
 
     // public function addRelatedAuthority(Request $request, $id){

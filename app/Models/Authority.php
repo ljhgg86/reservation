@@ -71,9 +71,9 @@ class Authority extends Model
      *
      * @return void
      */
-    public function relatedInfos(){
-        return $this->with('users','types')->get(['id', 'authorityName', 'authorityRemark']);
-    }
+    // public function relatedInfos(){
+    //     return $this->with('users','types')->get(['id', 'authorityName', 'authorityRemark']);
+    // }
 
     /**
      * 关联权限到用户和类型
