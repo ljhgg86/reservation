@@ -115,6 +115,6 @@ class User extends Authenticatable
         return $this->orWhere('realName', 'like', '%'.$keyWord.'%')
                     ->orWhere('cellphone', 'like', '%'.$keyWord.'%')
                     ->with('authorities')
-                    ->get(['name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']);
+                    ->get(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']);
     }
 }

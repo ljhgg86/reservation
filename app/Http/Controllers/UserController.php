@@ -132,9 +132,9 @@ class UserController extends Controller
     public function updateAuthority(Request $request,$user_id){
         $this->authorize();
         $user = User::find($user_id);
-        if(count($request->input('authority_ids'))){
+        //if(count($request->input('authority_ids'))){
             $user->authorities()->sync($request->input('authority_ids'));
-        }
+        //}
         return response()->responseUtil(true);
     }
 
