@@ -63,7 +63,9 @@ class OrderfeedbackController extends Controller
      */
     public function update(Request $request, Orderfeedback $orderfeedback)
     {
-        if($orderfeedback->user_id == request()->user()->id){
+        $feedbackMore = $orderfeedback->with('orderinfo.orderobject.ordertype')->first();
+        $type_id = $feedbackMore['orderinfo']['orderobject']['ordertype']['id'];
+        if($orderfeedback->user_id == request()->user()->id || $this->authorize($type_id)){
             //$orderfeedback->info_id = $request->input('info_id');
             $orderfeedback->feedbackContent = $request->input('feedbackContent');
             return response()->responseUtil($orderfeedback->save());
