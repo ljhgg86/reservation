@@ -38,8 +38,9 @@ class OrderfeedbackController extends Controller
         $orderfeedback->user_id = request()->user()->id;
         $orderfeedback->info_id = $request->input('info_id');
         $orderfeedback->feedbackContent = $request->input('feedbackContent');
+        $orderfeedback->save();
 
-        return response()->responseUtil($orderfeedback->save());
+        return response()->responseUtil($orderfeedback);
     }
 
     /**
@@ -63,7 +64,7 @@ class OrderfeedbackController extends Controller
     public function update(Request $request, Orderfeedback $orderfeedback)
     {
         if($orderfeedback->user_id == request()->user()->id){
-            $orderfeedback->info_id = $request->input('info_id');
+            //$orderfeedback->info_id = $request->input('info_id');
             $orderfeedback->feedbackContent = $request->input('feedbackContent');
             return response()->responseUtil($orderfeedback->save());
         }
