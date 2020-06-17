@@ -77,7 +77,9 @@ class Orderobject extends Model
                     ->with(['ordertimerules','ordertimes'=>function($query) use($date) {
                         $query->where('orderDate',$date)
                                 ->where('applyStatus', '<',2)
-                                ->with('orderinfo');
+                                ->with(['orderinfo'=>function($query){
+                                    $query->with(['proposer','checker']);
+                                }]);
                     }])
                     ->first(['id', 'type_id', 'objectName', 'objectIcon', 'objectRemark']);
     }
@@ -93,7 +95,9 @@ class Orderobject extends Model
                         $query->where('applyStatus', '<',2)
                                 ->whereYear('orderDate',$y)
                                 ->whereMonth('orderDate',$m)
-                                ->with('orderinfo');
+                                ->with(['orderinfo'=>function($query){
+                                    $query->with(['proposer','checker']);
+                                }]);
                     }])
                     ->first(['id','type_id', 'objectName', 'objectIcon', 'objectRemark']);
     }
