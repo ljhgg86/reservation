@@ -30,7 +30,7 @@ class Ordertype extends Model
     }
 
     public function authorities(){
-        return $this->belongsToMany(Authority::class,'autority_type','type_id','authority_id')
+        return $this->belongsToMany(Authority::class,'authority_type','type_id','authority_id')
                     ->select('authority.id', 'authorityName', 'authorityRemark');
     }
 

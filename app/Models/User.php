@@ -87,7 +87,7 @@ class User extends Authenticatable
         //   var_dump($username);
 
         // return self::where($credentials)->first();
-        return self::orwhere('name',$username)->orWhere('openId',$username)->first();
+        return self::orWhere('name',$username)->orWhere('openId',$username)->first();
     }
 
     // public function validatePhone($number){

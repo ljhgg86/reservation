@@ -161,7 +161,7 @@ class Orderinfo extends Model
         return $this->whereIn('object_id', $objectIds)
                     ->where('proposer_id', $proposer->id)
                     ->where('id','<',$minId)
-                    ->withwith(['proposer','checker','ordertimes'=>function($query){
+                    ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
                     },'orderobject.ordertype', 'orderfeedbacks'])
                     ->orderBy('id','DESC')
@@ -182,7 +182,7 @@ class Orderinfo extends Model
         return $this->where('object_id', $object_id)
                     ->where('proposer_id', $proposer->id)
                     ->where('id','<',$minId)
-                    ->withwith(['proposer','checker','ordertimes'=>function($query){
+                    ->with(['proposer','checker','ordertimes'=>function($query){
                         $query->timesByDatetime();
                     },'orderobject.ordertype', 'orderfeedbacks'])
                     ->orderBy('id','DESC')
