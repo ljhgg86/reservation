@@ -102,7 +102,8 @@ class UserController extends Controller
      * @return void
      */
     public function userInfo(){
-        return response()->responseUtil(request()->user()->with('authorities.types')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
+        $user = request()->user();
+        return response()->responseUtil(User::where('id',$user->id)->with('authorities.types')->first(['id', 'name', 'realName', 'openId', 'nickName', 'avatarUrl', 'cellphone', 'officephone', 'regTime', 'email']));
     }
 
     /**
